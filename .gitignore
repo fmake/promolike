@@ -1,0 +1,6 @@
+.*
+~*
+template/cache/*
+*~
+!.gitignore
+!*.example

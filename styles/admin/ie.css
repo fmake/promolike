@@ -1,0 +1,31 @@
+/* ---------- IEs ---------- */
+
+
+/* ----- IE6 ----- */
+* html .page {width: 1000px;margin: 0 auto;}
+* html .bg {filter: expression(fixPNG(this)); }
+* html #header .h-menu #main-menu .menu-item .menu-item-list li A
+	{float: left;}
+
+
+/* ----- IE7 ----- */
+*+html .clf { zoom: 1; display: block; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
