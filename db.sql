@@ -1,13 +1,20 @@
 -- phpMyAdmin SQL Dump
--- version 2.11.9.6
+-- version 3.4.5deb1
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost:3306
--- Время создания: Апр 05 2012 г., 14:28
--- Версия сервера: 5.0.45
--- Версия PHP: 5.2.6
+-- Хост: localhost
+-- Время создания: Апр 06 2012 г., 18:41
+-- Версия сервера: 5.1.58
+-- Версия PHP: 5.3.6-13ubuntu3.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- База данных: `new_promolike`
@@ -20,19 +27,19 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 CREATE TABLE IF NOT EXISTS `admin_modul` (
-  `id` int(11) NOT NULL auto_increment,
-  `parent` int(11) NOT NULL default '0',
-  `caption` varchar(255) NOT NULL default '',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent` int(11) NOT NULL DEFAULT '0',
+  `caption` varchar(255) NOT NULL DEFAULT '',
   `text` text NOT NULL,
-  `redir` varchar(255) NOT NULL default '',
-  `users` varchar(255) NOT NULL default '',
-  `file` varchar(255) NOT NULL default '',
-  `showinmenu` enum('1','0') NOT NULL default '1',
-  `active` enum('1','0') NOT NULL default '1',
-  `position` int(11) NOT NULL default '0',
-  `template` varchar(255) default '',
-  `index` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id`)
+  `redir` varchar(255) NOT NULL DEFAULT '',
+  `users` varchar(255) NOT NULL DEFAULT '',
+  `file` varchar(255) NOT NULL DEFAULT '',
+  `showinmenu` enum('1','0') NOT NULL DEFAULT '1',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `position` int(11) NOT NULL DEFAULT '0',
+  `template` varchar(255) DEFAULT '',
+  `index` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
 
 --
@@ -68,10 +75,10 @@ INSERT INTO `admin_modul` (`id`, `parent`, `caption`, `text`, `redir`, `users`, 
 --
 
 CREATE TABLE IF NOT EXISTS `admin_modul_acces` (
-  `id` int(11) NOT NULL auto_increment,
-  `id_modul` int(11) NOT NULL default '0',
-  `id_role` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_modul` int(11) NOT NULL DEFAULT '0',
+  `id_role` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
@@ -119,10 +126,10 @@ INSERT INTO `admin_modul_acces` (`id`, `id_modul`, `id_role`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `admin_modul_configs` (
-  `id_admin_modul` int(11) NOT NULL auto_increment,
+  `id_admin_modul` int(11) NOT NULL AUTO_INCREMENT,
   `data` text NOT NULL,
-  `active` enum('1','0') NOT NULL default '1',
-  PRIMARY KEY  (`id_admin_modul`)
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id_admin_modul`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
@@ -135,25 +142,70 @@ INSERT INTO `admin_modul_configs` (`id_admin_modul`, `data`, `active`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `balance`
+--
+
+CREATE TABLE IF NOT EXISTS `balance` (
+  `id_balance` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `unique_key` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_balance`),
+  UNIQUE KEY `id_user` (`id_user`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Дамп данных таблицы `balance`
+--
+
+INSERT INTO `balance` (`id_balance`, `id_user`, `amount`, `unique_key`) VALUES
+(10, 14, '0.00', '698d51a19d8a121ce581499d7b701668');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `balance_history`
+--
+
+CREATE TABLE IF NOT EXISTS `balance_history` (
+  `id_transaction` int(11) NOT NULL AUTO_INCREMENT,
+  `id_balance` int(11) NOT NULL,
+  `date_transaction` datetime NOT NULL,
+  `message` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_transaction`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+--
+-- Дамп данных таблицы `balance_history`
+--
+
+INSERT INTO `balance_history` (`id_transaction`, `id_balance`, `date_transaction`, `message`) VALUES
+(11, 10, '2012-04-06 17:22:04', 'Удаление из текущего баланса.'),
+(10, 10, '2012-04-06 17:22:04', 'Добавление к текущему балансу.'),
+(9, 10, '2012-04-06 17:22:04', 'Создание балланса.');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `filter`
 --
 
 CREATE TABLE IF NOT EXISTS `filter` (
-  `id_filter` int(11) NOT NULL auto_increment COMMENT 'id Фильтра',
-  `id_user` int(11) NOT NULL default '0' COMMENT 'id пользователя',
-  `caption` varchar(155) default NULL COMMENT 'название',
+  `id_filter` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id Фильтра',
+  `id_user` int(11) NOT NULL DEFAULT '0' COMMENT 'id пользователя',
+  `caption` varchar(155) DEFAULT NULL COMMENT 'название',
   `comparison_friends` int(1) NOT NULL COMMENT 'cравнение количества  друзей',
   `count_friends` int(11) NOT NULL COMMENT 'количество друзей',
   `comparison_messages` int(1) NOT NULL COMMENT 'сравнение количества сообщений',
   `count_messages` int(11) NOT NULL COMMENT 'количество сообщений',
   `activity` int(1) NOT NULL COMMENT 'активность',
   `budget` int(11) NOT NULL COMMENT 'бюджет',
-  `usercoef` int(11) NOT NULL default '0' COMMENT 'коеффицент пользователя',
-  `status` int(11) NOT NULL default '0' COMMENT 'Статус фильтры',
-  `date` int(11) NOT NULL default '0' COMMENT 'дата создания',
-  `active` enum('1','0') NOT NULL default '1',
-  `delete` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id_filter`)
+  `usercoef` int(11) NOT NULL DEFAULT '0' COMMENT 'коеффицент пользователя',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Статус фильтры',
+  `date` int(11) NOT NULL DEFAULT '0' COMMENT 'дата создания',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `delete` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_filter`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Тут дописать все параметры необходимые для фильтра' AUTO_INCREMENT=39 ;
 
 --
@@ -207,26 +259,21 @@ INSERT INTO `filter` (`id_filter`, `id_user`, `caption`, `comparison_friends`, `
 --
 
 CREATE TABLE IF NOT EXISTS `like` (
-  `id_like` int(11) NOT NULL auto_increment COMMENT 'id Лайка',
-  `id_place` int(11) NOT NULL default '0' COMMENT 'id место размещения',
+  `id_like` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id Лайка',
+  `id_place` int(11) NOT NULL DEFAULT '0' COMMENT 'id место размещения',
   `id_user_place` int(11) NOT NULL COMMENT 'id user публикации лайка',
-  `id_page` int(11) NOT NULL default '0' COMMENT 'id Страницы',
-  `id_text_like` int(11) NOT NULL default '0' COMMENT 'id Текста',
-  `status` int(11) NOT NULL default '0' COMMENT 'Статус лайка',
+  `id_page` int(11) NOT NULL DEFAULT '0' COMMENT 'id Страницы',
+  `id_text_like` int(11) NOT NULL DEFAULT '0' COMMENT 'id Текста',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Статус лайка',
   `url` varchar(255) NOT NULL COMMENT 'URL лайка',
   `like_text` text NOT NULL COMMENT 'текст лайка',
   `date_creation` int(11) NOT NULL COMMENT 'Дата создания',
-  `date_placed` int(11) NOT NULL default '0' COMMENT 'дата размещения',
-  `count` int(11) NOT NULL default '0' COMMENT 'количество переходов по лайку',
-  `active` enum('1','0') NOT NULL default '1',
-  `delete` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id_like`)
+  `date_placed` int(11) NOT NULL DEFAULT '0' COMMENT 'дата размещения',
+  `count` int(11) NOT NULL DEFAULT '0' COMMENT 'количество переходов по лайку',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `delete` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_like`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Лайк' AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `like`
---
-
 
 -- --------------------------------------------------------
 
@@ -235,17 +282,17 @@ CREATE TABLE IF NOT EXISTS `like` (
 --
 
 CREATE TABLE IF NOT EXISTS `page` (
-  `id_page` int(11) NOT NULL auto_increment COMMENT 'id Страницы',
-  `id_project` int(11) NOT NULL default '0' COMMENT 'id Проекта',
-  `id_user` int(11) NOT NULL default '0' COMMENT 'id пользователя',
+  `id_page` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id Страницы',
+  `id_project` int(11) NOT NULL DEFAULT '0' COMMENT 'id Проекта',
+  `id_user` int(11) NOT NULL DEFAULT '0' COMMENT 'id пользователя',
   `caption` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL COMMENT 'Адрес страницы',
   `text` text NOT NULL,
-  `position` int(11) NOT NULL default '0',
-  `date` int(11) NOT NULL default '0',
-  `active` enum('1','0') NOT NULL default '0',
-  `delete_page` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id_page`)
+  `position` int(11) NOT NULL DEFAULT '0',
+  `date` int(11) NOT NULL DEFAULT '0',
+  `active` enum('1','0') NOT NULL DEFAULT '0',
+  `delete_page` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_page`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Страницы проектов' AUTO_INCREMENT=45 ;
 
 --
@@ -305,16 +352,16 @@ INSERT INTO `page` (`id_page`, `id_project`, `id_user`, `caption`, `url`, `text`
 --
 
 CREATE TABLE IF NOT EXISTS `page_filter` (
-  `id_filter` int(11) NOT NULL auto_increment COMMENT 'id фильтра',
-  `id_page` int(11) NOT NULL default '0' COMMENT 'id страницы',
-  `id_user` int(11) NOT NULL default '0' COMMENT 'id пользователя',
-  `price_filter` int(11) NOT NULL default '0' COMMENT 'общая цена по фильтру',
-  `price` int(11) NOT NULL default '0' COMMENT 'цена по фильтру на которую закупили',
-  `status` int(11) NOT NULL default '0' COMMENT 'Статус фильтра',
-  `date` int(11) NOT NULL default '0' COMMENT 'дата создания',
-  `active` enum('1','0') NOT NULL default '1',
-  `delete_page` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id_filter`,`id_page`)
+  `id_filter` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id фильтра',
+  `id_page` int(11) NOT NULL DEFAULT '0' COMMENT 'id страницы',
+  `id_user` int(11) NOT NULL DEFAULT '0' COMMENT 'id пользователя',
+  `price_filter` int(11) NOT NULL DEFAULT '0' COMMENT 'общая цена по фильтру',
+  `price` int(11) NOT NULL DEFAULT '0' COMMENT 'цена по фильтру на которую закупили',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Статус фильтра',
+  `date` int(11) NOT NULL DEFAULT '0' COMMENT 'дата создания',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `delete_page` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_filter`,`id_page`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=39 ;
 
 --
@@ -373,21 +420,16 @@ INSERT INTO `page_filter` (`id_filter`, `id_page`, `id_user`, `price_filter`, `p
 --
 
 CREATE TABLE IF NOT EXISTS `place` (
-  `id_place` int(11) NOT NULL auto_increment COMMENT 'id Площадки',
-  `id_type_placed` int(11) NOT NULL default '0' COMMENT 'id типа площадки',
-  `id_user` int(11) NOT NULL default '0' COMMENT 'id пользователя',
-  `status` int(11) NOT NULL default '0' COMMENT 'Статус площадки',
-  `date` int(11) NOT NULL default '0' COMMENT 'дата создания',
-  `active` enum('1','0') NOT NULL default '1',
-  `delete` enum('0','1') NOT NULL default '0',
-  `caption` varchar(155) default NULL,
-  PRIMARY KEY  (`id_place`)
+  `id_place` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id Площадки',
+  `id_type_placed` int(11) NOT NULL DEFAULT '0' COMMENT 'id типа площадки',
+  `id_user` int(11) NOT NULL DEFAULT '0' COMMENT 'id пользователя',
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Статус площадки',
+  `date` int(11) NOT NULL DEFAULT '0' COMMENT 'дата создания',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `delete` enum('0','1') NOT NULL DEFAULT '0',
+  `caption` varchar(155) DEFAULT NULL,
+  PRIMARY KEY (`id_place`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Место размещения лайков' AUTO_INCREMENT=1 ;
-
---
--- Дамп данных таблицы `place`
---
-
 
 -- --------------------------------------------------------
 
@@ -396,19 +438,14 @@ CREATE TABLE IF NOT EXISTS `place` (
 --
 
 CREATE TABLE IF NOT EXISTS `place_param` (
-  `id_place` int(11) NOT NULL default '0',
-  `id_type_placed` int(11) NOT NULL default '0',
-  `id_user` int(11) NOT NULL default '0',
-  `social_id` varchar(155) default NULL,
-  `active` enum('1','0') NOT NULL default '1',
-  `delete` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id_place`)
+  `id_place` int(11) NOT NULL DEFAULT '0',
+  `id_type_placed` int(11) NOT NULL DEFAULT '0',
+  `id_user` int(11) NOT NULL DEFAULT '0',
+  `social_id` varchar(155) DEFAULT NULL,
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `delete` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_place`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Параметры площадки размещения';
-
---
--- Дамп данных таблицы `place_param`
---
-
 
 -- --------------------------------------------------------
 
@@ -417,15 +454,15 @@ CREATE TABLE IF NOT EXISTS `place_param` (
 --
 
 CREATE TABLE IF NOT EXISTS `project` (
-  `id_project` int(11) NOT NULL auto_increment COMMENT 'id Проекта',
-  `id_user` int(11) NOT NULL default '0' COMMENT 'id пользователя',
+  `id_project` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id Проекта',
+  `id_user` int(11) NOT NULL DEFAULT '0' COMMENT 'id пользователя',
   `caption` varchar(155) NOT NULL COMMENT 'Название проекта',
   `text` text NOT NULL,
-  `position` int(11) NOT NULL default '0',
-  `date` int(11) NOT NULL default '0' COMMENT 'Дата создания',
-  `active` enum('1','0') NOT NULL default '1',
-  `delete` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id_project`)
+  `position` int(11) NOT NULL DEFAULT '0',
+  `date` int(11) NOT NULL DEFAULT '0' COMMENT 'Дата создания',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `delete` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_project`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Проекты рекламодателей' AUTO_INCREMENT=13 ;
 
 --
@@ -453,14 +490,14 @@ INSERT INTO `project` (`id_project`, `id_user`, `caption`, `text`, `position`, `
 --
 
 CREATE TABLE IF NOT EXISTS `site_administrator` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `role` int(11) NOT NULL default '2',
-  `login` varchar(255) NOT NULL default '',
-  `password` varchar(255) NOT NULL default '',
-  `email` varchar(255) NOT NULL default '',
-  `active` enum('1','0') NOT NULL default '1',
-  PRIMARY KEY  (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `role` int(11) NOT NULL DEFAULT '2',
+  `login` varchar(255) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -478,11 +515,11 @@ INSERT INTO `site_administrator` (`id`, `name`, `role`, `login`, `password`, `em
 --
 
 CREATE TABLE IF NOT EXISTS `site_administrator_role` (
-  `id` int(11) NOT NULL auto_increment,
-  `role` varchar(255) NOT NULL default '',
-  `active` enum('1','0') NOT NULL default '1',
-  `position` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role` varchar(255) NOT NULL DEFAULT '',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `position` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
@@ -500,12 +537,12 @@ INSERT INTO `site_administrator_role` (`id`, `role`, `active`, `position`) VALUE
 --
 
 CREATE TABLE IF NOT EXISTS `site_config` (
-  `id` int(11) NOT NULL auto_increment,
-  `param` varchar(255) NOT NULL default '',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `param` varchar(255) NOT NULL DEFAULT '',
   `value` text NOT NULL,
-  `active` enum('1','0') NOT NULL default '1',
-  `caption` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `caption` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
@@ -528,20 +565,20 @@ INSERT INTO `site_config` (`id`, `param`, `value`, `active`, `caption`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `site_modul` (
-  `id` int(11) NOT NULL auto_increment,
-  `parent` int(11) NOT NULL default '0',
-  `caption` varchar(255) NOT NULL default '',
-  `title` varchar(255) NOT NULL default '',
-  `keywords` varchar(255) NOT NULL default '',
-  `description` varchar(255) NOT NULL default '',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent` int(11) NOT NULL DEFAULT '0',
+  `caption` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `keywords` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NOT NULL DEFAULT '',
   `text` text NOT NULL,
-  `redir` varchar(255) NOT NULL default '',
-  `file` varchar(255) NOT NULL default '',
-  `position` int(11) NOT NULL default '0',
-  `index` enum('0','1') NOT NULL default '0',
-  `inmenu` enum('1','0') NOT NULL default '1',
-  `active` enum('1','0') NOT NULL default '1',
-  PRIMARY KEY  (`id`)
+  `redir` varchar(255) NOT NULL DEFAULT '',
+  `file` varchar(255) NOT NULL DEFAULT '',
+  `position` int(11) NOT NULL DEFAULT '0',
+  `index` enum('0','1') NOT NULL DEFAULT '0',
+  `inmenu` enum('1','0') NOT NULL DEFAULT '1',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
 
 --
@@ -568,11 +605,11 @@ INSERT INTO `site_modul` (`id`, `parent`, `caption`, `title`, `keywords`, `descr
 --
 
 CREATE TABLE IF NOT EXISTS `social_set` (
-  `id_social_set` int(11) NOT NULL auto_increment COMMENT 'id соц. сети',
+  `id_social_set` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id соц. сети',
   `name` varchar(255) NOT NULL,
-  `active` enum('1','0') NOT NULL default '1',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
   `position` int(11) NOT NULL,
-  PRIMARY KEY  (`id_social_set`)
+  PRIMARY KEY (`id_social_set`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
@@ -591,9 +628,9 @@ INSERT INTO `social_set` (`id_social_set`, `name`, `active`, `position`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `social_set_filter` (
-  `id_social_set` int(11) NOT NULL default '0' COMMENT 'id соц. сети',
-  `id_filter` int(11) NOT NULL default '0' COMMENT 'id фильтра',
-  PRIMARY KEY  (`id_social_set`,`id_filter`)
+  `id_social_set` int(11) NOT NULL DEFAULT '0' COMMENT 'id соц. сети',
+  `id_filter` int(11) NOT NULL DEFAULT '0' COMMENT 'id фильтра',
+  PRIMARY KEY (`id_social_set`,`id_filter`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
@@ -638,9 +675,9 @@ INSERT INTO `social_set_filter` (`id_social_set`, `id_filter`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `social_set_text_like` (
-  `id_social_set` int(11) NOT NULL default '0' COMMENT 'id соц. сети',
-  `id_text_like` int(11) NOT NULL default '0' COMMENT 'id текста страницы',
-  PRIMARY KEY  (`id_social_set`,`id_text_like`)
+  `id_social_set` int(11) NOT NULL DEFAULT '0' COMMENT 'id соц. сети',
+  `id_text_like` int(11) NOT NULL DEFAULT '0' COMMENT 'id текста страницы',
+  PRIMARY KEY (`id_social_set`,`id_text_like`)
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 --
@@ -666,17 +703,17 @@ INSERT INTO `social_set_text_like` (`id_social_set`, `id_text_like`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `text_like` (
-  `id_text_like` int(11) NOT NULL auto_increment COMMENT 'id текст',
-  `id_page` int(11) NOT NULL default '0' COMMENT 'id Страницы',
+  `id_text_like` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id текст',
+  `id_page` int(11) NOT NULL DEFAULT '0' COMMENT 'id Страницы',
   `caption` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL COMMENT 'картинка текста',
   `text_like` varchar(255) NOT NULL COMMENT 'текст лайка',
-  `date_placed` int(11) NOT NULL default '0' COMMENT 'дата создания',
-  `count_max` int(11) NOT NULL default '0' COMMENT 'количество макс использования',
-  `count` int(11) NOT NULL default '0' COMMENT 'количество использования',
-  `active` enum('1','0') NOT NULL default '1',
-  `delete_page` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id_text_like`)
+  `date_placed` int(11) NOT NULL DEFAULT '0' COMMENT 'дата создания',
+  `count_max` int(11) NOT NULL DEFAULT '0' COMMENT 'количество макс использования',
+  `count` int(11) NOT NULL DEFAULT '0' COMMENT 'количество использования',
+  `active` enum('1','0') NOT NULL DEFAULT '1',
+  `delete_page` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_text_like`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Лайк' AUTO_INCREMENT=67 ;
 
 --
@@ -758,15 +795,15 @@ INSERT INTO `text_like` (`id_text_like`, `id_page`, `caption`, `image`, `text_li
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-  `id_user` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL default '',
-  `email` varchar(255) NOT NULL default '',
-  `password` varchar(255) NOT NULL default '',
-  `cookies` varchar(255) NOT NULL default '',
-  `active` enum('1','0') NOT NULL default '0',
-  `delete` enum('0','1') NOT NULL default '0',
-  `autication` varchar(255) default '',
-  PRIMARY KEY  (`id_user`),
+  `id_user` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `password` varchar(255) NOT NULL DEFAULT '',
+  `cookies` varchar(255) NOT NULL DEFAULT '',
+  `active` enum('1','0') NOT NULL DEFAULT '0',
+  `delete` enum('0','1') NOT NULL DEFAULT '0',
+  `autication` varchar(255) DEFAULT '',
+  PRIMARY KEY (`id_user`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Пользователи' AUTO_INCREMENT=15 ;
 
@@ -784,7 +821,7 @@ INSERT INTO `user` (`id_user`, `name`, `email`, `password`, `cookies`, `active`,
 (10, '', 'sawizky89sergei@yandex.com', 'cce20aebd3c9e30f5743b9c91e6b4ad6', '', '0', '0', 'b60f632aecfde1ea6148e5bceddd773d'),
 (11, '', 'kontervil@mail.ru', '190d039b1af04d950167e1e2525443a1', '', '1', '0', '8afe097a11c7f94dee05966d454c1628'),
 (13, '', 'mamay1986@mail.ru', 'ed12206d95d423353686cd01dd1dd60a', '', '1', '0', 'a190072c680b9eafdb62727f589b2f21'),
-(14, '', 'fredrsf@yandex.ru', 'd68e84140e6956552ce2dd8edc2dd627', '', '1', '0', '81cb3906744627df9728acfeb9be07aa');
+(14, '', 'fredrsf@yandex.ru', '698d51a19d8a121ce581499d7b701668', '', '1', '0', '81cb3906744627df9728acfeb9be07aa');
 
 -- --------------------------------------------------------
 
@@ -793,18 +830,18 @@ INSERT INTO `user` (`id_user`, `name`, `email`, `password`, `cookies`, `active`,
 --
 
 CREATE TABLE IF NOT EXISTS `user_social_set_params` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_social_set` int(11) NOT NULL,
   `uid` varchar(255) NOT NULL,
-  `tocken` varchar(255) NOT NULL default '',
+  `tocken` varchar(255) NOT NULL DEFAULT '',
   `secret_tocken` varchar(255) NOT NULL,
   `nickname` varchar(255) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `active` enum('1','0') NOT NULL default '0',
-  `delete` enum('0','1') NOT NULL default '0',
-  PRIMARY KEY  (`id`)
+  `active` enum('1','0') NOT NULL DEFAULT '0',
+  `delete` enum('0','1') NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
@@ -818,3 +855,6 @@ INSERT INTO `user_social_set_params` (`id`, `id_user`, `id_social_set`, `uid`, `
 (7, 5, 3, '', '382620177-AvME0e8yZCattjwI1VfJkdlVfPnKv5r5llbfIdIA', '6Tmx9NuUrArZ4aXPFvgdhu5dpW3913OnglngYTnG42k', 'a_mamaev', '', '', '0', '0'),
 (10, 14, 2, '9205957', '527ba27652f7dab352f7dab36052df09d9552f752f8b88d4cd13a934b1b1d38', '', '', '', '', '0', '0');
 
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
