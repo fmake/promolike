@@ -9,8 +9,8 @@ require 'configs.php';
 	//коннект к базе данных
 	$dataBase = new dataBaseController(
 				$_SERVER["PHP_SELF"],
-				"new_promolike",//пользователь
-				"Gjadyq3HGa3das",//пароль
+				"root",//пользователь
+				"0twinings5",//пароль
 				"new_promolike",//имя базы
 				"localhost",//сервер
 				"",
