@@ -10,8 +10,8 @@ require 'configs.php';
 	$dataBase = new dataBaseController(
 				$_SERVER["PHP_SELF"],
 				"root",//пользователь
-				"0twinings5",//пароль
-				"new_promolike",//имя базы
+				"",//пароль
+				"fmake",//имя базы
 				"localhost",//сервер
 				"",
 				"utf8",//кодировка

@@ -14,6 +14,7 @@ class promoLike_balance extends fmakeCore {
     public $idField = "id_balance";
     protected $message;
     public $history;
+    public $transaction_id;
 
     /**
      * @static метод синглтон для получения единственного экземпляра объекта
@@ -62,7 +63,7 @@ class promoLike_balance extends fmakeCore {
         
         $this->addParam("id_user", $this->user_id);
         $this->addParam("amount", 0.00);
-        $this->addParam("unique_key", md5("111")); // нужно подумать и дописать проверочки
+        $this->addParam("unique_key", mt_rand(5, 10)); // нужно подумать и дописать проверочки
         
         $this->id = FALSE;
         
@@ -147,14 +148,16 @@ class promoLike_balance extends fmakeCore {
         
         if(!$balance)
             return FALSE;
-
+        
+        $amount_old = $amount;
+        
         $amount = (float)$balance['amount'] + (float)$amount;
 
         $this->setBalance($this->user_id, $amount);
         
         $this->history = promoLike_balancehistory::getInstance();
          
-        $this->history->addRecord($this->user_id, "addAmount");
+        $this->transaction_id = $this->history->addRecord($this->user_id, "addAmount", $amount_old);
         
         return TRUE;
     }
@@ -178,6 +181,8 @@ class promoLike_balance extends fmakeCore {
 
         if(!$balance)
             return FALSE;
+        
+        $amount_old = $amount;
 
         $amount = (float)$balance['amount'] - (float)$amount;
 
@@ -185,7 +190,7 @@ class promoLike_balance extends fmakeCore {
         
         $this->history = promoLike_balancehistory::getInstance();
          
-        $this->history->addRecord($this->user_id, "removeAmount");
+        $this->history->addRecord($this->user_id, "removeAmount", $amount_old);
         
         return TRUE;
     }

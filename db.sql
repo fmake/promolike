@@ -1,29 +1,22 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.5deb1
+-- version 3.2.3
 -- http://www.phpmyadmin.net
 --
--- Хост: localhost
--- Время создания: Апр 06 2012 г., 18:41
--- Версия сервера: 5.1.58
--- Версия PHP: 5.3.6-13ubuntu3.3
+-- Host: localhost
+-- Generation Time: Apr 09, 2012 at 12:27 AM
+-- Server version: 5.1.40
+-- PHP Version: 5.3.3
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
--- База данных: `new_promolike`
+-- Database: `fmake`
 --
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `admin_modul`
+-- Table structure for table `admin_modul`
 --
 
 CREATE TABLE IF NOT EXISTS `admin_modul` (
@@ -43,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `admin_modul` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=82 ;
 
 --
--- Дамп данных таблицы `admin_modul`
+-- Dumping data for table `admin_modul`
 --
 
 INSERT INTO `admin_modul` (`id`, `parent`, `caption`, `text`, `redir`, `users`, `file`, `showinmenu`, `active`, `position`, `template`, `index`) VALUES
@@ -71,7 +64,7 @@ INSERT INTO `admin_modul` (`id`, `parent`, `caption`, `text`, `redir`, `users`, 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `admin_modul_acces`
+-- Table structure for table `admin_modul_acces`
 --
 
 CREATE TABLE IF NOT EXISTS `admin_modul_acces` (
@@ -82,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `admin_modul_acces` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
 --
--- Дамп данных таблицы `admin_modul_acces`
+-- Dumping data for table `admin_modul_acces`
 --
 
 INSERT INTO `admin_modul_acces` (`id`, `id_modul`, `id_role`) VALUES
@@ -122,7 +115,7 @@ INSERT INTO `admin_modul_acces` (`id`, `id_modul`, `id_role`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `admin_modul_configs`
+-- Table structure for table `admin_modul_configs`
 --
 
 CREATE TABLE IF NOT EXISTS `admin_modul_configs` (
@@ -133,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `admin_modul_configs` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Дамп данных таблицы `admin_modul_configs`
+-- Dumping data for table `admin_modul_configs`
 --
 
 INSERT INTO `admin_modul_configs` (`id_admin_modul`, `data`, `active`) VALUES
@@ -142,7 +135,7 @@ INSERT INTO `admin_modul_configs` (`id_admin_modul`, `data`, `active`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `balance`
+-- Table structure for table `balance`
 --
 
 CREATE TABLE IF NOT EXISTS `balance` (
@@ -155,16 +148,16 @@ CREATE TABLE IF NOT EXISTS `balance` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
--- Дамп данных таблицы `balance`
+-- Dumping data for table `balance`
 --
 
 INSERT INTO `balance` (`id_balance`, `id_user`, `amount`, `unique_key`) VALUES
-(10, 14, '0.00', '698d51a19d8a121ce581499d7b701668');
+(10, 14, 1500.00, '698d51a19d8a121ce581499d7b701668');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `balance_history`
+-- Table structure for table `balance_history`
 --
 
 CREATE TABLE IF NOT EXISTS `balance_history` (
@@ -172,22 +165,21 @@ CREATE TABLE IF NOT EXISTS `balance_history` (
   `id_balance` int(11) NOT NULL,
   `date_transaction` datetime NOT NULL,
   `message` varchar(255) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id_transaction`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
--- Дамп данных таблицы `balance_history`
+-- Dumping data for table `balance_history`
 --
 
-INSERT INTO `balance_history` (`id_transaction`, `id_balance`, `date_transaction`, `message`) VALUES
-(11, 10, '2012-04-06 17:22:04', 'Удаление из текущего баланса.'),
-(10, 10, '2012-04-06 17:22:04', 'Добавление к текущему балансу.'),
-(9, 10, '2012-04-06 17:22:04', 'Создание балланса.');
+INSERT INTO `balance_history` (`id_transaction`, `id_balance`, `date_transaction`, `message`, `amount`) VALUES
+(31, 10, '2012-04-08 23:58:40', 'Добавление к текущему балансу.', 0.00);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `filter`
+-- Table structure for table `filter`
 --
 
 CREATE TABLE IF NOT EXISTS `filter` (
@@ -209,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `filter` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 COMMENT='Тут дописать все параметры необходимые для фильтра' AUTO_INCREMENT=39 ;
 
 --
--- Дамп данных таблицы `filter`
+-- Dumping data for table `filter`
 --
 
 INSERT INTO `filter` (`id_filter`, `id_user`, `caption`, `comparison_friends`, `count_friends`, `comparison_messages`, `count_messages`, `activity`, `budget`, `usercoef`, `status`, `date`, `active`, `delete`) VALUES
@@ -255,7 +247,7 @@ INSERT INTO `filter` (`id_filter`, `id_user`, `caption`, `comparison_friends`, `
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `like`
+-- Table structure for table `like`
 --
 
 CREATE TABLE IF NOT EXISTS `like` (
@@ -275,10 +267,15 @@ CREATE TABLE IF NOT EXISTS `like` (
   PRIMARY KEY (`id_like`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Лайк' AUTO_INCREMENT=1 ;
 
+--
+-- Dumping data for table `like`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `page`
+-- Table structure for table `page`
 --
 
 CREATE TABLE IF NOT EXISTS `page` (
@@ -296,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `page` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Страницы проектов' AUTO_INCREMENT=45 ;
 
 --
--- Дамп данных таблицы `page`
+-- Dumping data for table `page`
 --
 
 INSERT INTO `page` (`id_page`, `id_project`, `id_user`, `caption`, `url`, `text`, `position`, `date`, `active`, `delete_page`) VALUES
@@ -348,7 +345,7 @@ INSERT INTO `page` (`id_page`, `id_project`, `id_user`, `caption`, `url`, `text`
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `page_filter`
+-- Table structure for table `page_filter`
 --
 
 CREATE TABLE IF NOT EXISTS `page_filter` (
@@ -365,7 +362,7 @@ CREATE TABLE IF NOT EXISTS `page_filter` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=39 ;
 
 --
--- Дамп данных таблицы `page_filter`
+-- Dumping data for table `page_filter`
 --
 
 INSERT INTO `page_filter` (`id_filter`, `id_page`, `id_user`, `price_filter`, `price`, `status`, `date`, `active`, `delete_page`) VALUES
@@ -416,7 +413,7 @@ INSERT INTO `page_filter` (`id_filter`, `id_page`, `id_user`, `price_filter`, `p
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `place`
+-- Table structure for table `place`
 --
 
 CREATE TABLE IF NOT EXISTS `place` (
@@ -431,10 +428,15 @@ CREATE TABLE IF NOT EXISTS `place` (
   PRIMARY KEY (`id_place`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Место размещения лайков' AUTO_INCREMENT=1 ;
 
+--
+-- Dumping data for table `place`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `place_param`
+-- Table structure for table `place_param`
 --
 
 CREATE TABLE IF NOT EXISTS `place_param` (
@@ -447,10 +449,15 @@ CREATE TABLE IF NOT EXISTS `place_param` (
   PRIMARY KEY (`id_place`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Параметры площадки размещения';
 
+--
+-- Dumping data for table `place_param`
+--
+
+
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `project`
+-- Table structure for table `project`
 --
 
 CREATE TABLE IF NOT EXISTS `project` (
@@ -466,7 +473,7 @@ CREATE TABLE IF NOT EXISTS `project` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Проекты рекламодателей' AUTO_INCREMENT=13 ;
 
 --
--- Дамп данных таблицы `project`
+-- Dumping data for table `project`
 --
 
 INSERT INTO `project` (`id_project`, `id_user`, `caption`, `text`, `position`, `date`, `active`, `delete`) VALUES
@@ -486,7 +493,7 @@ INSERT INTO `project` (`id_project`, `id_user`, `caption`, `text`, `position`, `
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `site_administrator`
+-- Table structure for table `site_administrator`
 --
 
 CREATE TABLE IF NOT EXISTS `site_administrator` (
@@ -501,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `site_administrator` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Дамп данных таблицы `site_administrator`
+-- Dumping data for table `site_administrator`
 --
 
 INSERT INTO `site_administrator` (`id`, `name`, `role`, `login`, `password`, `email`, `active`) VALUES
@@ -511,7 +518,7 @@ INSERT INTO `site_administrator` (`id`, `name`, `role`, `login`, `password`, `em
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `site_administrator_role`
+-- Table structure for table `site_administrator_role`
 --
 
 CREATE TABLE IF NOT EXISTS `site_administrator_role` (
@@ -523,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `site_administrator_role` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Дамп данных таблицы `site_administrator_role`
+-- Dumping data for table `site_administrator_role`
 --
 
 INSERT INTO `site_administrator_role` (`id`, `role`, `active`, `position`) VALUES
@@ -533,7 +540,7 @@ INSERT INTO `site_administrator_role` (`id`, `role`, `active`, `position`) VALUE
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `site_config`
+-- Table structure for table `site_config`
 --
 
 CREATE TABLE IF NOT EXISTS `site_config` (
@@ -546,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `site_config` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
--- Дамп данных таблицы `site_config`
+-- Dumping data for table `site_config`
 --
 
 INSERT INTO `site_config` (`id`, `param`, `value`, `active`, `caption`) VALUES
@@ -561,7 +568,7 @@ INSERT INTO `site_config` (`id`, `param`, `value`, `active`, `caption`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `site_modul`
+-- Table structure for table `site_modul`
 --
 
 CREATE TABLE IF NOT EXISTS `site_modul` (
@@ -582,7 +589,7 @@ CREATE TABLE IF NOT EXISTS `site_modul` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
 
 --
--- Дамп данных таблицы `site_modul`
+-- Dumping data for table `site_modul`
 --
 
 INSERT INTO `site_modul` (`id`, `parent`, `caption`, `title`, `keywords`, `description`, `text`, `redir`, `file`, `position`, `index`, `inmenu`, `active`) VALUES
@@ -601,7 +608,7 @@ INSERT INTO `site_modul` (`id`, `parent`, `caption`, `title`, `keywords`, `descr
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `social_set`
+-- Table structure for table `social_set`
 --
 
 CREATE TABLE IF NOT EXISTS `social_set` (
@@ -613,7 +620,7 @@ CREATE TABLE IF NOT EXISTS `social_set` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Дамп данных таблицы `social_set`
+-- Dumping data for table `social_set`
 --
 
 INSERT INTO `social_set` (`id_social_set`, `name`, `active`, `position`) VALUES
@@ -624,7 +631,7 @@ INSERT INTO `social_set` (`id_social_set`, `name`, `active`, `position`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `social_set_filter`
+-- Table structure for table `social_set_filter`
 --
 
 CREATE TABLE IF NOT EXISTS `social_set_filter` (
@@ -634,7 +641,7 @@ CREATE TABLE IF NOT EXISTS `social_set_filter` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `social_set_filter`
+-- Dumping data for table `social_set_filter`
 --
 
 INSERT INTO `social_set_filter` (`id_social_set`, `id_filter`) VALUES
@@ -671,7 +678,7 @@ INSERT INTO `social_set_filter` (`id_social_set`, `id_filter`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `social_set_text_like`
+-- Table structure for table `social_set_text_like`
 --
 
 CREATE TABLE IF NOT EXISTS `social_set_text_like` (
@@ -681,7 +688,7 @@ CREATE TABLE IF NOT EXISTS `social_set_text_like` (
 ) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
 
 --
--- Дамп данных таблицы `social_set_text_like`
+-- Dumping data for table `social_set_text_like`
 --
 
 INSERT INTO `social_set_text_like` (`id_social_set`, `id_text_like`) VALUES
@@ -699,7 +706,7 @@ INSERT INTO `social_set_text_like` (`id_social_set`, `id_text_like`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `text_like`
+-- Table structure for table `text_like`
 --
 
 CREATE TABLE IF NOT EXISTS `text_like` (
@@ -717,7 +724,7 @@ CREATE TABLE IF NOT EXISTS `text_like` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Лайк' AUTO_INCREMENT=67 ;
 
 --
--- Дамп данных таблицы `text_like`
+-- Dumping data for table `text_like`
 --
 
 INSERT INTO `text_like` (`id_text_like`, `id_page`, `caption`, `image`, `text_like`, `date_placed`, `count_max`, `count`, `active`, `delete_page`) VALUES
@@ -791,7 +798,7 @@ INSERT INTO `text_like` (`id_text_like`, `id_page`, `caption`, `image`, `text_li
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
@@ -808,7 +815,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Пользователи' AUTO_INCREMENT=15 ;
 
 --
--- Дамп данных таблицы `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`id_user`, `name`, `email`, `password`, `cookies`, `active`, `delete`, `autication`) VALUES
@@ -826,7 +833,7 @@ INSERT INTO `user` (`id_user`, `name`, `email`, `password`, `cookies`, `active`,
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `user_social_set_params`
+-- Table structure for table `user_social_set_params`
 --
 
 CREATE TABLE IF NOT EXISTS `user_social_set_params` (
@@ -845,7 +852,7 @@ CREATE TABLE IF NOT EXISTS `user_social_set_params` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
--- Дамп данных таблицы `user_social_set_params`
+-- Dumping data for table `user_social_set_params`
 --
 
 INSERT INTO `user_social_set_params` (`id`, `id_user`, `id_social_set`, `uid`, `tocken`, `secret_tocken`, `nickname`, `first_name`, `last_name`, `active`, `delete`) VALUES
@@ -854,7 +861,3 @@ INSERT INTO `user_social_set_params` (`id`, `id_user`, `id_social_set`, `uid`, `
 (5, 12, 2, '8499452', 'e1c47e93e145ce6fe145ce6fa0e16d1d05ee145e14aac5167fc59896ad4f8a6', '', '', '', '', '0', '0'),
 (7, 5, 3, '', '382620177-AvME0e8yZCattjwI1VfJkdlVfPnKv5r5llbfIdIA', '6Tmx9NuUrArZ4aXPFvgdhu5dpW3913OnglngYTnG42k', 'a_mamaev', '', '', '0', '0'),
 (10, 14, 2, '9205957', '527ba27652f7dab352f7dab36052df09d9552f752f8b88d4cd13a934b1b1d38', '', '', '', '', '0', '0');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
