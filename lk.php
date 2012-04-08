@@ -1,4 +1,4 @@
-<?
+<?php
 require ('./libs/FController.php');
 require './libs/login.php';
 
@@ -19,4 +19,3 @@ $globalTemplateParam->set('payments',$payments);
 $template = "lk/main.tpl";
 $template = $twig->loadTemplate($template);
 $template->display($globalTemplateParam->get());
-?>
