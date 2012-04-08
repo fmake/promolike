@@ -1,7 +1,7 @@
 <?php
 require ('./libs/FController.php');
 require './libs/login.php';
-
+//test
 if(!$user->isLogined()){
 			header("HTTP/1.1 301 Moved Permanently");
 			header('Location: /index.php');
