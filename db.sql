@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 09, 2012 at 12:27 AM
+-- Generation Time: Apr 09, 2012 at 11:17 PM
 -- Server version: 5.1.40
 -- PHP Version: 5.3.3
 
@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `balance` (
 --
 
 INSERT INTO `balance` (`id_balance`, `id_user`, `amount`, `unique_key`) VALUES
-(10, 14, 1500.00, '698d51a19d8a121ce581499d7b701668');
+(10, 14, 4750.00, '698d51a19d8a121ce581499d7b701668');
 
 -- --------------------------------------------------------
 
@@ -166,15 +166,16 @@ CREATE TABLE IF NOT EXISTS `balance_history` (
   `date_transaction` datetime NOT NULL,
   `message` varchar(255) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
+  `status` enum('0','1','2') NOT NULL,
   PRIMARY KEY (`id_transaction`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=39 ;
 
 --
 -- Dumping data for table `balance_history`
 --
 
-INSERT INTO `balance_history` (`id_transaction`, `id_balance`, `date_transaction`, `message`, `amount`) VALUES
-(31, 10, '2012-04-08 23:58:40', 'Добавление к текущему балансу.', 0.00);
+INSERT INTO `balance_history` (`id_transaction`, `id_balance`, `date_transaction`, `message`, `amount`, `status`) VALUES
+(38, 10, '2012-04-09 23:14:41', 'Добавление к текущему балансу.', 250.00, '1');
 
 -- --------------------------------------------------------
 

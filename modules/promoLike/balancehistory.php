@@ -22,7 +22,7 @@ class promoLike_balancehistory extends promoLike_balance {
         return self::$instance;
     }
     
-    public function addRecord($user_id, $operation = "change", $amount = 0.00){
+    public function addRecord($user_id, $operation = "change", $amount = 0.00, $status = '2'){
         
         if (!$user_id)
             return FALSE;
@@ -42,6 +42,7 @@ class promoLike_balancehistory extends promoLike_balance {
         $this->addParam("date_transaction", date("Y-m-d H:i:s", time()));
         $this->addParam("message", $this->generateMessage($operation));
         $this->addParam("amount", $amount);
+        $this->addParam("status", $status);
         
         $this->id = FALSE;
         
@@ -53,6 +54,38 @@ class promoLike_balancehistory extends promoLike_balance {
             return FALSE;
   	
         return $this->id;
+    }
+    
+    public function getRecord($id){
+        if (!$id)
+            return FALSE;
+        
+        $select = $this->dataBase->SelectFromDB(__LINE__);
+        $this->table = "balance_history";
+        
+	$result =  $select->addFrom($this->table)->addWhere('id_transaction = ' . $id)->queryDB();
+        
+        if(!$result)
+            return false;
+        
+        $this->table = "balance";
+        
+        return $result[0];
+    }
+    
+    public function updateRecord($id){
+        if (!$id)
+            return FALSE;
+        
+        $this->table = "balance_history";
+        
+        $this->addParam("status", '1');
+        
+        $this->updateWithParam("id_transaction", $id);
+        
+        $this->table = "balance";
+        
+        return TRUE;
     }
     
     private function generateMessage($operation){

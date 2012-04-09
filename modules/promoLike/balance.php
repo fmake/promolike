@@ -155,9 +155,9 @@ class promoLike_balance extends fmakeCore {
 
         $this->setBalance($this->user_id, $amount);
         
-        $this->history = promoLike_balancehistory::getInstance();
+        //$this->history = promoLike_balancehistory::getInstance();
          
-        $this->transaction_id = $this->history->addRecord($this->user_id, "addAmount", $amount_old);
+        //$this->transaction_id = $this->history->addRecord($this->user_id, "addAmount", $amount_old, '1');
         
         return TRUE;
     }
@@ -190,7 +190,7 @@ class promoLike_balance extends fmakeCore {
         
         $this->history = promoLike_balancehistory::getInstance();
          
-        $this->history->addRecord($this->user_id, "removeAmount", $amount_old);
+        $this->history->addRecord($this->user_id, "removeAmount", $amount_old, '2');
         
         return TRUE;
     }
