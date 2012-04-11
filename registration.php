@@ -1,6 +1,9 @@
 <?
-require('./libs/FController.php');
+/**
+ * Регистрация 
+ */
 
+require('./libs/FController.php');
 
 switch ($request->action){
 	case 'registration':
