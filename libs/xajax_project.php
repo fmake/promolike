@@ -261,7 +261,7 @@ function addPage($param,$action = false) {
 			$globalTemplateParam->set('pages',$pages);
 			$globalTemplateParam->set('id_project',$id_project);
 			$globalTemplateParam->set('id_user',$id_user);
-			$all_page_user = $twig->loadTemplate("ajax_tpl/form_page.tpl")->render($globalTemplateParam->get());
+			$all_page_user = $twig->loadTemplate("ajax_tpl/add_page.tpl")->render($globalTemplateParam->get());
 			
 			global $twig,$globalTemplateParam;
 			$globalTemplateParam->set('id_project',$id_project);
@@ -379,12 +379,12 @@ function publicVKtext($id_page,$id_textpage,$id_user,$id_project) {
 	$fmakeTekstLike->setId($id_textpage);
 	$textpage = $fmakeTekstLike->getInfo();
 	
-	/*$api_id = '2629628';
+	$api_id = '2629628';
 	$vk = new fmakeVkapi();
 	//foreach($users as $key=>$user){
 		$user['id_user'] = 5;
 		$vk->SendMessageWall($api_id,$user['id_user'],2,$textpage,$page['url']);
-	//}*/
+	//}
 	
 	
 	$objResponse = new xajaxResponse();

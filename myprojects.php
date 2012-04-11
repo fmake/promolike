@@ -43,6 +43,7 @@ function showPagesTable($id_project,$loop){
 function publicText($id_page,$id_user,$id_project) {
 	$fmakePage = new promoLike_page();
 	$fmakeTekstLike = new promoLike_textlike();
+	$fmakeLike = new promoLike_like();
 	
 	$fmakePage->setId($id_page);
 	$page = $fmakePage->getInfo();
@@ -55,16 +56,41 @@ function publicText($id_page,$id_user,$id_project) {
 		return false;
 	}
 	
-	/*if(!$page['active']){
-		$api_id = '2629628';
+	if(!$page['active']){
+		/*$api_id = '2629628';
 		$vk = new fmakeVkapi();
-	//foreach($users as $key=>$user){
-		$textpage = $fmakeTekstLike->getRandTextActive($page[$fmakePage->idField]);
-		$user['id_user'] = 5;
-		$result_publick = $vk->SendMessageWall($api_id,$user['id_user'],2,$textpage,$page['url']);
-		
-	//}
-	}*/
+		//foreach($users as $key=>$user){
+			$textpage = $fmakeTekstLike->getRandTextActive($page[$fmakePage->idField]);
+			$user['id_user'] = 5;
+			$result_publick = $vk->SendMessageWall($api_id,$user['id_user'],2,$textpage,$page['url']);
+			
+			
+		//}
+		 */
+		$textpages_active = $fmakeTekstLike->getAllTextPage($id_page,true);
+		if($textpages_active){
+			foreach($textpages_active as $key=>$item){
+				$isItem = $fmakeLike->isTextLikeStatus($item[$fmakeTekstLike->idField],'2');
+				if(!$isItem['count']){
+					$fmakeLike->addLike($item[$fmakeTekstLike->idField]);
+				}
+				else{
+					$fmakeLike->setId($isItem[$fmakeLike->idField]);
+					$fmakeLike->changeStatus(1);
+				}
+			}
+		}
+		else{
+			$fmakePage->setEnum('active');
+		}
+	}
+	else{
+		$likes_page = $fmakeLike->getPageStatus($id_page,1);
+		if($likes_page)foreach ($likes_page as $key=>$item){
+			$fmakeLike->setId($item[$fmakeLike->idField]);
+			$fmakeLike->changeStatus(2);
+		}
+	}
 	
 	
 	$objResponse = new xajaxResponse();
@@ -79,11 +105,6 @@ $xajax->processRequest();
 $globalTemplateParam->set('xajax',$xajax);
 
 /*---------------------xajax---------------------------------*/
-
-/*-------активность главного меню--------*/
-$active_menu = 2;
-$globalTemplateParam->set('active_menu',$active_menu);
-/*-------активность главного меню--------*/
 
 $fmakeFilter = new promoLike_filter();
 

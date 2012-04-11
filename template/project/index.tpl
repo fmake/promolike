@@ -3,7 +3,7 @@
 			<h1>Мои компании</h1>
 			<a href="/project.php" class="btn primary-padding" style="position: relative;"><span class="f16 primary-green" ><span >+ Добавить компанию</span></span></a>
 			<div id="error_api"></div>
-			/*<table class="all-stat" >
+			<table class="all-stat" >
 				<tr>
 					<td>Заявок </td>
 					<td align="right"><a href="">5000</a></td>
@@ -12,7 +12,7 @@
 					<td>Всего ссылок</td>
 					<td align="right"><a href="">100</a></td>
 				</tr>
-			</table>*/
+			</table>
 			
 			<div id="companys" >
 				[[for project in projects]]

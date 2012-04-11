@@ -14,4 +14,6 @@
 			</center>
 		</td>
 	</tr>
+[[else]]
+	<p>нет текстов</p>
 [[endfor]]	

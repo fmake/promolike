@@ -1,6 +1,6 @@
 <div class="topic" id="balans" >
 	<div class="login" >
-		<a href="/lk.php">{user_params.email}</a> ( <a href="?action=logout" class="small" >выйти</a> )
+		<a href="/">{user_params.email}</a> ( <a href="?action=logout" class="small" >выйти</a> )
 	</div>
 	<div class="hr" ></div>
 	<table width="100%">

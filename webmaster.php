@@ -7,11 +7,6 @@ if(!$user->isLogined()){
 			header('Location: /index.php');
 }
 
-/*-------активность главного меню--------*/
-$active_menu = 1;
-$globalTemplateParam->set('active_menu',$active_menu);
-/*-------активность главного меню--------*/
-
 /*социальные сети*/
 $SocialUser = new fmakeSiteUser();
 $active_socseti = $SocialUser->getActiveSocialUser($user->id);

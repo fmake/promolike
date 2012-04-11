@@ -134,7 +134,7 @@ class fmakeCore extends fmakeWhereSelector{
 	function newItem(){
 		$insert = $this->dataBase->InsertInToDB(__LINE__);	
 			
-		$insert	-> addTable($this->table);
+		$insert	-> addTable("`".$this->table."`");
 		$this->getFilds();
 		
 		if($this->filds){
@@ -184,7 +184,7 @@ class fmakeCore extends fmakeWhereSelector{
 		{
 			if(!isset($this->params[$fild]) || $fild == $this->idField) continue; 
 			$update =  $this->dataBase->UpdateDB( __LINE__);
-			$update	-> addTable($this->table) -> addFild("`".$fild."`", $this->params[$fild]) -> addWhere("{$this->idField}='".$this->id."'") -> queryDB();
+			$update	-> addTable("`".$this->table."`") -> addFild("`".$fild."`", $this->params[$fild]) -> addWhere("{$this->idField}='".$this->id."'") -> queryDB();
 		}
 	}
 

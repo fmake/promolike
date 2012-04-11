@@ -74,12 +74,6 @@ $globalTemplateParam->set('xajax',$xajax);
 
 /*---------------------xajax---------------------------------*/
 
-/*-------активность главного меню--------*/
-$active_menu = 1;
-$globalTemplateParam->set('active_menu',$active_menu);
-/*-------активность главного меню--------*/
-
-
 switch($request->action){
 	case 'register_vk':
 		$text_param = $request->getEscape('text_param_vk');

@@ -12,11 +12,6 @@ require './modules/APIvk/vkapi.php';
 
 require_once ("./libs/xajax_project.php");
 
-/*-------активность главного меню--------*/
-$active_menu = 2;
-$globalTemplateParam->set('active_menu',$active_menu);
-/*-------активность главного меню--------*/
-
 $globalTemplateParam->set('request_tmp',$_REQUEST);
 //printAr($_REQUEST);
 $userObj = new fmakeSiteUser();
@@ -93,6 +88,8 @@ switch ($request->action){
 					$globalTemplateParam->set('update',$param_update);
 				}
 				$globalTemplateParam->set('project',$project);
+				$globalTemplateParam->set('id_user',$project['id_user']);
+				$globalTemplateParam->set('id_project',$project['id_project']);
 				$globalTemplateParam->set('pages',$pages);
 				$template = "project/project_second.tpl";
 				$template = $twig->loadTemplate($template);
@@ -248,6 +245,8 @@ switch ($request->action){
 				}
 								
 				$globalTemplateParam->set('project',$project);
+				$globalTemplateParam->set('id_user',$project['id_user']);
+				$globalTemplateParam->set('id_project',$project['id_project']);
 				$globalTemplateParam->set('pages',$pages);
 				$globalTemplateParam->set('id_page',$id_page);
 				$globalTemplateParam->set('error',$error);
