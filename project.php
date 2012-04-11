@@ -207,7 +207,7 @@ switch ($request->action){
 							}
 							/*социальные сети*/	
 							
-							if($_FILES['image']['name']) $fmakeTekstLike -> addPreviewFoto($_FILES['image']['tmp_name'],$_FILES['image']['name']);
+							if($_FILES['image0']['name']) $fmakeTekstLike -> addPreviewFoto($_FILES['image0']['tmp_name'],$_FILES['image0']['name']);
 							
 							if($request->add_next_button){
 								header("HTTP/1.1 301 Moved Permanently");
