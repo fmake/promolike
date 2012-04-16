@@ -166,4 +166,11 @@ $(document).ready(function(){
 	$('input.socset_input').live('click',function(){
 		$(this).parent().find('img.image-socset').click();
 	});
+	
+	$(".company-detals .page-tr .list-actives").live('click',function(){
+		var id_user = $(this).attr('user');
+		var id_place = $(this).attr('place');
+		$('#list-active-place-'+id_place).show();
+		xajax_showListActive(id_user,id_place);
+	});
 });

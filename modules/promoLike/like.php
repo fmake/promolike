@@ -72,4 +72,17 @@ class promoLike_like extends fmakeCore{
 		$fmakePage = new promoLike_page();
 		return $select->addFrom("`".$this->table."`")->addWhere("`id_page`='".$id_page."'")->addWhere("`status` = '1'")->addWhere("`active` = '1'")->queryDB();
 	}
+	
+	/**
+	 * 
+	 * все лайки пользователя на определенной площядке
+	 * @param unknown_type $id_page
+	 * @param unknown_type $status
+	 */
+	
+	function getUserPlaceAll($id_user,$id_place) {
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$fmakePage = new promoLike_page();
+		return $select->addFrom("`".$this->table."`")->addWhere("`id_place`='".$id_place."'")->addWhere("`id_user_place` = '".$id_user."'")->addWhere("`active` = '1'")->queryDB();
+	}
 }

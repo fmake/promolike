@@ -48,10 +48,18 @@
 					<td class="left" >[[if item.id_social_set==1]][[elseif item.id_social_set==2]]<a target="_blank" href="http://vk.com/id{item.uid}">Перейти на страницу</a>[[elseif item.id_social_set==3]]<a target="_blank" href="https://twitter.com/#!/{item.nickname}">Перейти на страницу</a>[[endif]] ({item.socname})</td>
 					<td>0</td>
 					<td></td>
-					<td></td>
-					<td></td>
+					<td colspan="2"><span class="list-actives" place="{item.id_social_set}" user="{user.id}">Лента активности</span></td>
 					<td class="algn-c" ></td>
 					<td class="right" ></td>
+				</tr>
+				<tr id="list-active-place-{item.id_social_set}" class="page-tr list-actives-tr">
+					<td colspan="7">
+						<div class="table-list">
+							<center>
+								<img src="/images/preloader-main-table.gif">
+							</center>
+						</div>
+					</td>
 				</tr>
 			[[endfor]]
 		</tbody>
