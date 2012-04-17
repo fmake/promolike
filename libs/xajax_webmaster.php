@@ -10,7 +10,7 @@ $xajax->register(XAJAX_FUNCTION,"showListActive");
 function showListActive($id_user,$id_place) {
 	
 	$promoLike_like = new promoLike_like();
-	$likes = $promoLike_like->getUserPlaceAll($user->id,2);
+	$likes = $promoLike_like->getUserPlaceAll($id_user,2);
 	
 	
 	global $twig,$globalTemplateParam;

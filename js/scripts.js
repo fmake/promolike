@@ -170,7 +170,21 @@ $(document).ready(function(){
 	$(".company-detals .page-tr .list-actives").live('click',function(){
 		var id_user = $(this).attr('user');
 		var id_place = $(this).attr('place');
-		$('#list-active-place-'+id_place).show();
-		xajax_showListActive(id_user,id_place);
+		var load = $(this).attr('load');
+		if($(this).attr('rel')=='active'){
+			$(this).attr('rel','');
+			$(this).text('Лента активности');
+			$('#list-active-place-'+id_place).hide();
+		}
+		else{
+			$(this).attr('rel','active');
+			$(this).text('Закрыть ленту активности');
+			$('#list-active-place-'+id_place).show();
+			if(!load){
+				$(this).attr('load','1');
+				xajax_showListActive(id_user,id_place);
+			}
+		}
+		
 	});
 });

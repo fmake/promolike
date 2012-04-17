@@ -429,9 +429,10 @@ div.error span {color: red; border: 1px dashed red;padding: 5px;}
 
 .list-actives {cursor: pointer; border-bottom: 1px dashed;}
 .list-actives:hover {cursor: pointer; border-bottom: 0px dashed;}
-.list-actives-tr {width: 100%;}
+.list-actives-tr {width: 100%;display: none;}
 .table-list TD {border-bottom: 0px solid #C4C4C4 !important;}
 .table-list TR.dashed TD {border-bottom: 1px dashed #C4C4C4 !important;}
+.table-list TR.bg-title {background-color: #C4C4C4;}
 .table-list TD.list-active-status {width: 120px;}
 .table-list TD.list-active-date {width: 120px;}
 .table-list TD.list-active-text {width: 76%; text-align: center;}
