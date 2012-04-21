@@ -38,7 +38,7 @@
 						</tr>
 						<tr class="head-caption-tr" >
 							<td class="left" >
-								<img src="/images/minus.gif" alt="раскрыть" class="img-action"  rel="no-active" rel_loop="{loop.index0}" param="{project.id_project}"/> 
+								<img src="/images/plus.gif" alt="раскрыть" class="img-action"  rel="no-active" rel_loop="{loop.index0}" param="{project.id_project}"/> 
 								<div class="long_link_box">
 									<div class="long_link">
 										<span class="pointer" >{project.caption}</span>

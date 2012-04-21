@@ -117,12 +117,14 @@ $(document).ready(function(){
 		//alert('qq');
 		if($(this).attr('rel').length>0){
 			$(this).attr('rel','');
-			$(this).attr('src','/images/plus.gif');
+			//$(this).attr('src','/images/plus.gif');
+			$(this).attr('src','/images/minus.gif');
 			$(this).parent().parent().parent().parent().next().show();
 		}
 		else{
 			$(this).attr('rel','no-active');
-			$(this).attr('src','/images/minus.gif');
+			//$(this).attr('src','/images/minus.gif');
+			$(this).attr('src','/images/plus.gif');
 			$(this).parent().parent().parent().parent().next().hide();
 		}
 	});
@@ -132,19 +134,22 @@ $(document).ready(function(){
 		var id_project = obj_image.attr('param');
 		if($('#table-project'+loop+' .preloader-table-pages-main').is('.preloader-table-pages-main')){
 			obj_image.attr('rel','');
-			obj_image.attr('src','/images/plus.gif');
+			//obj_image.attr('src','/images/plus.gif');
+			$(this).attr('src','/images/minus.gif');
 			$('#table-project'+loop).show();
 			xajax_showPagesTable(id_project,loop);
 		}
 		else{
 			if(obj_image.attr('rel').length>0){
 				obj_image.attr('rel','');
-				obj_image.attr('src','/images/plus.gif');
+				//obj_image.attr('src','/images/plus.gif');
+				$(this).attr('src','/images/minus.gif');
 				obj_image.parent().parent().parent().parent().next().show();
 			}
 			else{
 				obj_image.attr('rel','no-active');
-				obj_image.attr('src','/images/minus.gif');
+				//obj_image.attr('src','/images/minus.gif');
+				obj_image.attr('src','/images/plus.gif');
 				obj_image.parent().parent().parent().parent().next().hide();
 			}
 		}
