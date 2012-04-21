@@ -62,6 +62,17 @@ class promoLike_like extends fmakeCore{
 	
 	/**
 	 * 
+	 * Все лайки в очереди со статусом $status
+	 * @param int $status
+	 */
+	
+	function getAllLikeStatus($status) {
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		return $select->addFrom("`".$this->table."`")->addWhere("`status` = '1'")->addWhere("`active` = '1'")->queryDB();
+	}
+	
+	/**
+	 * 
 	 * Все лайки в очереди со статусом $status страницы
 	 * @param int $id_page
 	 * @param int $status

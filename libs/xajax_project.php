@@ -3,7 +3,7 @@ require_once ("./libs/xajax/xajax_core/xajax.inc.php");
 
 $xajax = new xajax();
 $xajax->configure('decodeUTF8Input',true);
-//$xajax->configure('debug',true);
+$xajax->configure('debug',true);
 $xajax->configure('javascript URI','./libs/xajax/');
 $xajax->register(XAJAX_FUNCTION,"addPage");
 $xajax->register(XAJAX_FUNCTION,"editPage");
@@ -16,6 +16,85 @@ $xajax->register(XAJAX_FUNCTION,"updateTextPage");
 $xajax->register(XAJAX_FUNCTION,"deleteTextPage");
 $xajax->register(XAJAX_FUNCTION,"publicVKtext");
 $xajax->register(XAJAX_FUNCTION,"activeText");
+$xajax->register(XAJAX_FUNCTION,"showPagesTable");
+$xajax->register(XAJAX_FUNCTION,"publicText");
+
+function showPagesTable($id_project,$loop){
+	$fmakeProject = new promoLike_project();
+	$fmakePage = new promoLike_page();
+	$fmakeProject->setId($id_project);
+	$project = $fmakeProject->getInfo();
+	if($project){
+		$pages=$fmakePage->getAllPageUser($project['id_user'], $project[$fmakeProject->idField]);	
+		global $twig,$globalTemplateParam;
+		$globalTemplateParam->set('pages',$pages);
+		$globalTemplateParam->set('id_project',$id_project);
+		$text = $twig->loadTemplate("ajax_tpl/show_pages_main_table.tpl")->render($globalTemplateParam->get());
+	}
+	else{
+		$text = '';
+	}
+	$objResponse = new xajaxResponse();
+	$objResponse->assign("table-project".$loop,"innerHTML", $text);
+	return $objResponse;
+}
+
+function publicText($id_page,$id_text_like,$id_user,$id_project) {
+	$fmakePage = new promoLike_page();
+	$fmakeTekstLike = new promoLike_textlike();
+	$fmakeLike = new promoLike_like();
+	
+	$fmakePage->setId($id_page);
+	$page = $fmakePage->getInfo();
+	
+	if(!($page['id_user']==$id_user && $page['id_project']==$id_project)){
+		return false;
+	}
+	else{
+		$fmakePage->setEnum('active');
+	}
+	
+	if($id_text_like){
+		$fmakeLike->addLike($id_text_like);
+	}
+	else{
+		if(!$page['active']){
+			$textpages_active = $fmakeTekstLike->getAllTextPage($id_page,true);
+			if($textpages_active){
+				foreach($textpages_active as $key=>$item){
+					$isItem = $fmakeLike->isTextLikeStatus($item[$fmakeTekstLike->idField],'2');
+					if(!$isItem['count']){
+						$fmakeLike->addLike($item[$fmakeTekstLike->idField]);
+					}
+					else{
+						$fmakeLike->setId($isItem[$fmakeLike->idField]);
+						$fmakeLike->changeStatus(1);
+					}
+				}
+			}
+			else{
+				$fmakePage->setEnum('active');
+			}
+		}
+		else{
+			$likes_page = $fmakeLike->getPageStatus($id_page,1);
+			if($likes_page)foreach ($likes_page as $key=>$item){
+				$fmakeLike->setId($item[$fmakeLike->idField]);
+				$fmakeLike->changeStatus(2);
+			}
+		}
+	}
+
+	
+	
+	$objResponse = new xajaxResponse();
+	if($result_publick->error) $objResponse->assign('error_api','innerHTML','error');
+	if(!$id_text_like){
+		if($page['active']) $objResponse->assign("active".$page[$fmakePage->idField],"src", "/images/control_pause_blue.png");
+		else $objResponse->assign("active".$page[$fmakePage->idField],"src", "/images/control_play_blue.png");
+	}	
+	return $objResponse;
+}
 
 function addTextPage($param,$action = false) {
 	$fmakePage = new promoLike_page();

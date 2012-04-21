@@ -33,7 +33,7 @@
 		<td><a href="">7</a></td>
 		<td><a href="">3</a></td>
 		<td>/*{fmakeFilter.summBudgetPage(user.id,page.id_page,id_project)}*/0</td>
-		<td class="algn-c" ><a href=""><img src="[[if page.active]]/images/control_play_blue.png[[else]]/images/control_pause_blue.png[[endif]]" id="active{page.id_page}" onclick="xajax_publicText({page.id_page},{user.id},{id_project});return false;"/> </a></td>
+		<td class="algn-c" >/*<a href=""><img src="[[if page.active]]/images/control_play_blue.png[[else]]/images/control_pause_blue.png[[endif]]" id="active{page.id_page}" onclick="xajax_publicText({page.id_page},{user.id},{id_project});return false;"/> </a>*/</td>
 		<td class="right" >/*<a href="/filter.php?id_project={id_project}&page={page.id_page}">Добавить фильтры</a>*/</td>
 	</tr>
 	[[endfor]]
