@@ -114,20 +114,9 @@ $(document).ready(function(){
 	});
 	
 	$('.company .head-caption-tr .left img').live('click',function(){
-		//alert('qq');
-		if($(this).attr('rel').length>0){
-			$(this).attr('rel','');
-			//$(this).attr('src','/images/plus.gif');
-			$(this).attr('src','/images/minus.gif');
-			$(this).parent().parent().parent().parent().next().show();
-		}
-		else{
-			$(this).attr('rel','no-active');
-			//$(this).attr('src','/images/minus.gif');
-			$(this).attr('src','/images/plus.gif');
-			$(this).parent().parent().parent().parent().next().hide();
-		}
+		$(this).parent().find(".pointer").click();
 	});
+	
 	$('.company .head-caption-tr .left .long_link .pointer').live('click',function(){
 		var obj_image = $(this).parent().parent().parent().find('.img-action');
 		var loop = obj_image.attr('rel_loop');
@@ -135,7 +124,7 @@ $(document).ready(function(){
 		if($('#table-project'+loop+' .preloader-table-pages-main').is('.preloader-table-pages-main')){
 			obj_image.attr('rel','');
 			//obj_image.attr('src','/images/plus.gif');
-			$(this).attr('src','/images/minus.gif');
+			obj_image.attr('src','/images/minus.gif');
 			$('#table-project'+loop).show();
 			xajax_showPagesTable(id_project,loop);
 		}
@@ -143,7 +132,7 @@ $(document).ready(function(){
 			if(obj_image.attr('rel').length>0){
 				obj_image.attr('rel','');
 				//obj_image.attr('src','/images/plus.gif');
-				$(this).attr('src','/images/minus.gif');
+				obj_image.attr('src','/images/minus.gif');
 				obj_image.parent().parent().parent().parent().next().show();
 			}
 			else{
@@ -188,6 +177,26 @@ $(document).ready(function(){
 			if(!load){
 				$(this).attr('load','1');
 				xajax_showListActive(id_user,id_place);
+			}
+		}
+		
+	});
+	
+	$(".company-detals .page-tr .page-textlikes").live('click',function(){
+		var id_page = $(this).attr('page');
+		var load = $(this).attr('load');
+		if($(this).attr('rel')=='active'){
+			$(this).attr('rel','');
+			$(this).text('Показать тексты');
+			$('#textlikes-page'+id_page).parent().parent().hide();
+		}
+		else{
+			$(this).attr('rel','active');
+			$(this).text('Скрыть тексты');
+			$('#textlikes-page'+id_page).parent().parent().show();
+			if(!load){
+				$(this).attr('load','1');
+				xajax_showTextsPage(id_page);
 			}
 		}
 		

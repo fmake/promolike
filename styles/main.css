@@ -427,7 +427,7 @@ div.error span {color: red; border: 1px dashed red;padding: 5px;}
 .create_socialnetwork select {border: 1px solid black; width: 300px; height: 25px; font-size: 16px;}
 .webmaster-socseti {margin-top: 95px;}
 
-.list-actives {cursor: pointer; border-bottom: 1px dashed;}
+.list-actives, .dashed {cursor: pointer; border-bottom: 1px dashed;}
 .list-actives:hover {cursor: pointer; border-bottom: 0px dashed;}
 .list-actives-tr {width: 100%;display: none;}
 .table-list TD {border-bottom: 0px solid #C4C4C4 !important;}

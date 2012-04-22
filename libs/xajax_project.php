@@ -3,7 +3,7 @@ require_once ("./libs/xajax/xajax_core/xajax.inc.php");
 
 $xajax = new xajax();
 $xajax->configure('decodeUTF8Input',true);
-$xajax->configure('debug',true);
+//$xajax->configure('debug',true);
 $xajax->configure('javascript URI','./libs/xajax/');
 $xajax->register(XAJAX_FUNCTION,"addPage");
 $xajax->register(XAJAX_FUNCTION,"editPage");
@@ -17,7 +17,9 @@ $xajax->register(XAJAX_FUNCTION,"deleteTextPage");
 $xajax->register(XAJAX_FUNCTION,"publicVKtext");
 $xajax->register(XAJAX_FUNCTION,"activeText");
 $xajax->register(XAJAX_FUNCTION,"showPagesTable");
+$xajax->register(XAJAX_FUNCTION,"showTextsPage");
 $xajax->register(XAJAX_FUNCTION,"publicText");
+
 
 function showPagesTable($id_project,$loop){
 	$fmakeProject = new promoLike_project();
@@ -36,6 +38,24 @@ function showPagesTable($id_project,$loop){
 	}
 	$objResponse = new xajaxResponse();
 	$objResponse->assign("table-project".$loop,"innerHTML", $text);
+	return $objResponse;
+}
+
+function showTextsPage($id_page){
+	$fmakeProject = new promoLike_project();
+	$fmakeTextLike = new promoLike_textlike();
+	$texts = $fmakeTextLike->getAllTextPage($id_page,true);
+	$fmakePage = new promoLike_page();
+	$fmakePage->setId($id_page);
+	$page = $fmakePage->getInfo();
+	global $twig,$globalTemplateParam;
+	$globalTemplateParam->set('texts',$texts);
+	$globalTemplateParam->set('page',$page);
+	$globalTemplateParam->set('id_project',$page[$fmakeProject->idField]);
+	$text = $twig->loadTemplate("ajax_tpl/show_textlike_pages_main_table.tpl")->render($globalTemplateParam->get());
+
+	$objResponse = new xajaxResponse();
+	$objResponse->assign("textlikes-page".$id_page,"innerHTML", $text);
 	return $objResponse;
 }
 

@@ -71,6 +71,7 @@ class promoLike_like extends fmakeCore{
 		return $select->addFrom("`".$this->table."`")->addWhere("`status` = '1'")->addWhere("`active` = '1'")->queryDB();
 	}
 	
+	
 	/**
 	 * 
 	 * Все лайки в очереди со статусом $status страницы

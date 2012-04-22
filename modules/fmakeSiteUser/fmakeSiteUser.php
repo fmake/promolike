@@ -138,6 +138,17 @@
 		$_SESSION[$this->type]['status'] = $this->status;
 	}
 	
+	/**
+	 * 
+	 * Выбираем рандомно пользователя социальной сети
+	 * @param unknown_type $id_social_set
+	 */
+	
+	function getUserRand($id_social_set) {
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$result = $select->addFrom($this->table_social)->addWhere("id_social_set = ".$id_social_set)->addOrder("RAND()")->queryDB();
+		return $result[0];
+	}
 	
 	function getUserSocialParam($id_user,$id_social_set) {
 		$select = $this->dataBase->SelectFromDB(__LINE__);
