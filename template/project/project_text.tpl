@@ -92,4 +92,7 @@
 			[[if error.alert]]
 				{error.alert|raw} 
 			[[endif]]
+			[[if add_script]]
+				{add_script|raw} 
+			[[endif]]
 [[endblock]]

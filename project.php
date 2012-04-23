@@ -117,6 +117,26 @@ switch ($request->action){
 			$SocialSet->table = $SocialSet->table_name;
 			$full_soc_set = $SocialSet->getAll(true);
 			/*социальные сети*/
+						
+			if($request->getEscape('id_textlike')){
+				
+				$id_textlike = $request->getEscape('id_textlike');
+				$fmakeTekstLike = new promoLike_textlike();
+				$fmakeTekstLike->setId($id_textlike);
+				$info_textlike = $fmakeTekstLike->getInfo();
+				//printAr($info_textlike);
+				//if($info_textlike[$fmakeUser->idField]==$user->id){
+					//echo('qq');
+					$add_script = '
+							<script type="text/javascript">
+								$(function(){
+									xajax_editTextPage('.$id_textlike.','.$user->id.','.$request->getEscape('id_project').');
+								});
+							</script>';
+					
+					$globalTemplateParam->set('add_script',$add_script);
+				//}
+			}
 			
 			if($project){
 				switch($request->action_add_text_page){
@@ -238,11 +258,15 @@ switch ($request->action){
 				$fmakePage = new promoLike_page();
 				$pages = $fmakePage->getAllPageUser($id_user,$request->getEscape('id_project'));
 				$id_page = ($request->id_page)? $request->id_page: $pages[0][$fmakePage->idField];
+				
+				if($info_textlike[$fmakePage->idField]) $id_page = $info_textlike[$fmakePage->idField];
+				
 				if($pages){
 					$fmakeTekstLike = new promoLike_textlike();
 					$textlikes = $fmakeTekstLike->getAllTextPage($id_page);
 					$globalTemplateParam->set('textlikes',$textlikes);
 				}
+
 								
 				$globalTemplateParam->set('project',$project);
 				$globalTemplateParam->set('id_user',$project['id_user']);

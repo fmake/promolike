@@ -29,9 +29,9 @@
 				<div class="long_link_hidder hidder_gray">&nbsp;</div>
 			</div>
 		</td>
-		<td>42</td>
-		<td><a href="">7</a></td>
-		<td><a href="">3</a></td>
+		<td>0</td>
+		<td><a href="">0</a></td>
+		<td><a href="">0</a></td>
 		<td>/*{fmakeFilter.summBudgetPage(user.id,page.id_page,id_project)}*/0</td>
 		<td class="algn-c" >/*<a href=""><img src="[[if page.active]]/images/control_play_blue.png[[else]]/images/control_pause_blue.png[[endif]]" id="active{page.id_page}" onclick="xajax_publicText({page.id_page},0,{user.id},{id_project});return false;"/> </a>*/</td>
 		<td class="right" ><span class="dashed page-textlikes" page="{page.id_page}" load="" rel="">Показать тексты</span>/*<a href="/filter.php?id_project={id_project}&page={page.id_page}">Добавить фильтры</a>*/</td>

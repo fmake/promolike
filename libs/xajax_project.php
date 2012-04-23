@@ -44,7 +44,7 @@ function showPagesTable($id_project,$loop){
 function showTextsPage($id_page){
 	$fmakeProject = new promoLike_project();
 	$fmakeTextLike = new promoLike_textlike();
-	$texts = $fmakeTextLike->getAllTextPage($id_page,true);
+	$texts = $fmakeTextLike->getAllTextPage($id_page);
 	$fmakePage = new promoLike_page();
 	$fmakePage->setId($id_page);
 	$page = $fmakePage->getInfo();
