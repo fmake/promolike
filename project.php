@@ -12,11 +12,6 @@ require './modules/APIvk/vkapi.php';
 
 require_once ("./libs/xajax_project.php");
 
-/*-------активность главного меню--------*/
-$active_menu = 2;
-$globalTemplateParam->set('active_menu',$active_menu);
-/*-------активность главного меню--------*/
-
 $globalTemplateParam->set('request_tmp',$_REQUEST);
 //printAr($_REQUEST);
 $userObj = new fmakeSiteUser();
@@ -93,6 +88,8 @@ switch ($request->action){
 					$globalTemplateParam->set('update',$param_update);
 				}
 				$globalTemplateParam->set('project',$project);
+				$globalTemplateParam->set('id_user',$project['id_user']);
+				$globalTemplateParam->set('id_project',$project['id_project']);
 				$globalTemplateParam->set('pages',$pages);
 				$template = "project/project_second.tpl";
 				$template = $twig->loadTemplate($template);
@@ -120,6 +117,26 @@ switch ($request->action){
 			$SocialSet->table = $SocialSet->table_name;
 			$full_soc_set = $SocialSet->getAll(true);
 			/*социальные сети*/
+						
+			if($request->getEscape('id_textlike')){
+				
+				$id_textlike = $request->getEscape('id_textlike');
+				$fmakeTekstLike = new promoLike_textlike();
+				$fmakeTekstLike->setId($id_textlike);
+				$info_textlike = $fmakeTekstLike->getInfo();
+				//printAr($info_textlike);
+				//if($info_textlike[$fmakeUser->idField]==$user->id){
+					//echo('qq');
+					$add_script = '
+							<script type="text/javascript">
+								$(function(){
+									xajax_editTextPage('.$id_textlike.','.$user->id.','.$request->getEscape('id_project').');
+								});
+							</script>';
+					
+					$globalTemplateParam->set('add_script',$add_script);
+				//}
+			}
 			
 			if($project){
 				switch($request->action_add_text_page){
@@ -210,7 +227,7 @@ switch ($request->action){
 							}
 							/*социальные сети*/	
 							
-							if($_FILES['image']['name']) $fmakeTekstLike -> addPreviewFoto($_FILES['image']['tmp_name'],$_FILES['image']['name']);
+							if($_FILES['image0']['name']) $fmakeTekstLike -> addPreviewFoto($_FILES['image0']['tmp_name'],$_FILES['image0']['name']);
 							
 							if($request->add_next_button){
 								header("HTTP/1.1 301 Moved Permanently");
@@ -241,13 +258,19 @@ switch ($request->action){
 				$fmakePage = new promoLike_page();
 				$pages = $fmakePage->getAllPageUser($id_user,$request->getEscape('id_project'));
 				$id_page = ($request->id_page)? $request->id_page: $pages[0][$fmakePage->idField];
+				
+				if($info_textlike[$fmakePage->idField]) $id_page = $info_textlike[$fmakePage->idField];
+				
 				if($pages){
 					$fmakeTekstLike = new promoLike_textlike();
 					$textlikes = $fmakeTekstLike->getAllTextPage($id_page);
 					$globalTemplateParam->set('textlikes',$textlikes);
 				}
+
 								
 				$globalTemplateParam->set('project',$project);
+				$globalTemplateParam->set('id_user',$project['id_user']);
+				$globalTemplateParam->set('id_project',$project['id_project']);
 				$globalTemplateParam->set('pages',$pages);
 				$globalTemplateParam->set('id_page',$id_page);
 				$globalTemplateParam->set('error',$error);

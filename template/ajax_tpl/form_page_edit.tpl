@@ -3,7 +3,8 @@
 		Название Страницы
 	</td>
 	<td class="middle" >
-		<input type="text" name="name[]" value="{page.caption}" />
+		[[if page.id_page]]<input type="hidden" name="id_page" value="{page.id_page}">[[endif]]
+		<input type="text" name="name" value="{page.caption}" />
 	</td>
 </tr>
 <tr>
@@ -11,7 +12,7 @@
 		Адрес
 	</td>
 	<td class="middle" >
-		<input type="text" name="page_url[]" value="{page.url}" />
+		<input type="text" name="page_url" value="{page.url}" />
 	</td>
 </tr>
 <tr>
@@ -28,7 +29,7 @@
 	</td>
 	<td align="right">
 		<br /><br /><br />
-		<a href="/project.php?id_project={id_project}" class="btn primary-padding"><span class="f20 primary-green" ><span >Назад</span></span></a>
-		<a href="/project.php?id_project={id_project}&action=add_text" id="next_link" onclick="Next(2);return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Далее</span></span></a>
+		<a href="/project.php?id_project={request.id_project}" class="btn primary-padding"><span class="f20 primary-green" ><span >Назад</span></span></a>
+		<a href="/project.php?id_project={request.id_project}&action=add_text" id="next_link" onclick="Next(2,this.form);return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Далее</span></span></a>
 	</td>
 </tr>

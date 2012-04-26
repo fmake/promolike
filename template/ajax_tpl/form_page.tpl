@@ -33,7 +33,7 @@
 	</td>
 	<td align="right">
 		<br /><br /><br />
-		<a href="/project.php?id_project={id_project}" class="btn primary-padding"><span class="f20 primary-green" ><span >Назад</span></span></a>
-		<a href="/project.php?id_project={id_project}&action=add_text" id="next_link" onclick="Next(1);return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Далее</span></span></a>
+		<a href="/project.php?id_project={request.id_project}" class="btn primary-padding"><span class="f20 primary-green" ><span >Назад</span></span></a>
+		<a href="/project.php?id_project={request.id_project}&action=add_text" id="next_link" onclick="Next(1);return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Далее</span></span></a>
 	</td>
 </tr>
