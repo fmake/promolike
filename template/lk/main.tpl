@@ -20,13 +20,13 @@
 				<td class="left" > 
 					<div class="long_link_box">
 						<div class="long_link">
-							<span >Дата и время платежа</span>
+							<span >Операция</span>
 						</div>
 						<div class="long_link_hidder hidder_gray">&nbsp;</div>
 					</div>
 				</td>
-				<td>Внесение</td>
-				<td>Расход</td>
+				<td>Дата</td>
+				<td>Сумма</td>
 				<td></td>
 				<td></td>
 				<td></td>

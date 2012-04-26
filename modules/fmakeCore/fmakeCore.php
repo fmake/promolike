@@ -145,7 +145,7 @@ class fmakeCore extends fmakeWhereSelector{
 			}
 			
 			foreach($this->filds as $fild){
-				if(!isset($this->params[$fild]) || $fild == 'id') continue; 
+				if(!isset($this->params[$fild]) || $fild == $this ->idField) continue; 
 				$insert -> addFild("`".$fild."`", $this->params[$fild]);
 			}
 			
@@ -185,6 +185,22 @@ class fmakeCore extends fmakeWhereSelector{
 			if(!isset($this->params[$fild]) || $fild == $this->idField) continue; 
 			$update =  $this->dataBase->UpdateDB( __LINE__);
 			$update	-> addTable($this->table) -> addFild("`".$fild."`", $this->params[$fild]) -> addWhere("{$this->idField}='".$this->id."'") -> queryDB();
+		}
+	}
+        
+        /**
+	 * 
+	 * Обновление записи, с использованием массива params, перед использованием надо установить id записи 
+	 */
+	function updateWithParam($field, $value) {
+		if(!$this->filds)
+			$this->getFilds();
+
+		foreach($this->filds as $fild)
+		{
+			if(!isset($this->params[$fild]) || $fild == $this->idField) continue; 
+			$update =  $this->dataBase->UpdateDB( __LINE__);
+			$update	-> addTable($this->table) -> addFild("`".$fild."`", $this->params[$fild]) -> addWhere("{$field}='".$value."'") -> queryDB();
 		}
 	}
 

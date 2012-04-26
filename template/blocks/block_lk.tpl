@@ -5,10 +5,10 @@
 	<div class="hr" ></div>
 	<table width="100%">
 		<tr>
-			<td>Расход</td>
-			<td align="right">-100</td>
+			<td>Баланс: </td>
+			<td align="right">{balance}</td>
 		</tr>
-		<tr>
+		<!--tr>
 			<td>Доход</td>
 			<td align="right">0</td>
 		</tr>
@@ -19,11 +19,11 @@
 		<tr>
 			<td>Итого</td>
 			<td align="right">400</td>
-		</tr>
+		</tr-->
 	</table>
 	<br/>
-	<center>
-		<a href="./" class="btn primary-padding"><span class="f14 primary-green" ><span>Пополнить баланс</span></span></a>
+	<center>          
+		<a href="./robokassa.php" class="btn primary-padding"><span class="f14 primary-green" ><span>Пополнить баланс</span></span></a>
 	</center>
 	<br/>
 </div>
