@@ -15,19 +15,21 @@ class promoLike_textlike extends fmakeCore{
 	/**
 	 * 
 	 * Все тексты лайков для страницы
-	 * @param unknown_type $id_page
+	 * @param int $id_page
 	 */
 	
-	function getAllTextPage($id_page){
+	function getAllTextPage($id_page,$active = false){
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$fmakePage = new promoLike_page();
+		if($active)
+			$select -> addWhere("active='1'");
 		return $select->addFrom($this->table)->addWhere($fmakePage->idField.' = '.$id_page.'')->addWhere("`delete_page` = '0'")->queryDB();
 	}
 
 	/**
 	 * 
 	 * Колличество текстов лайков на странице
-	 * @param unknown_type $id_page
+	 * @param int $id_page
 	 */
 	
 	function getAllTextPageCount($id_page){
@@ -36,6 +38,12 @@ class promoLike_textlike extends fmakeCore{
 		$result = $select->addFild("COUNT(*)")->addFrom($this->table)->addWhere($fmakePage->idField.' = '.$id_page.'')->addWhere("`delete_page` = '0'")->queryDB();
 		return $result[0]["COUNT(*)"];
 	}
+	
+	/**
+	 * 
+	 * Рандомный активный текст страницы 
+	 * @param int $id_page
+	 */
 	
 	function getRandTextActive($id_page)
 	{
@@ -46,6 +54,13 @@ class promoLike_textlike extends fmakeCore{
 		//$update = $this->dataBase->UpdateDB( __LINE__);
 		//$update	-> addTable($this->table) -> addFild("active", "IF('active'='1','0','1')", false) -> addWhere("{$this->idField}='".$this->id."'") -> queryDB();
 	}
+	
+	/**
+	 * 
+	 * Делаем превью изображения
+	 * @param string $tmp_file
+	 * @param string $name_file
+	 */
 	
 	function addPreviewFoto($tmp_file,$name_file){
 		$id_gal = $this->id;
@@ -69,6 +84,11 @@ class promoLike_textlike extends fmakeCore{
 		$this->update();
 	}
 	
+	/**
+	 * 
+	 * удаление изображений
+	 */
+	
 	function deleteImages(){
 		$info = $this->getInfo();
 		$this->image = $info['image'];
@@ -76,6 +96,12 @@ class promoLike_textlike extends fmakeCore{
 		if(file_exists(ROOT."/".$this->imgFolder.$this->id."/".$this->image))
 			@unlink(ROOT."/".$this->imgFolder.$this->id."/".$this->image);	
 	}
+	
+	/**
+	 * удаление
+	 * @see fmakeCore::delete()
+	 */
+	
 	
 	function delete(){ 
 		$this->deleteImages();

@@ -4,4 +4,4 @@ template/cache/*
 *~
 !.gitignore
 !*.example
-/nbproject/private/
+libs/FController.php

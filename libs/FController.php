@@ -11,7 +11,7 @@ require 'configs.php';
 				$_SERVER["PHP_SELF"],
 				"root",//пользователь
 				"",//пароль
-				"fmake",//имя базы
+				"new_promolike",//имя базы
 				"localhost",//сервер
 				"",
 				"utf8",//кодировка

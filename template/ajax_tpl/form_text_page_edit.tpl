@@ -11,7 +11,7 @@
 	<td class="middle" >
 		<select name="id_page" onChange="xajax_getTextPage(this.value);">
 			[[for page in pages]]
-				<option value="{page.id_page}">{page.caption}</option>
+				<option [[if textpage.id_page==page.id_page]]selected[[endif]] value="{page.id_page}">{page.caption}</option>
 			[[endfor]]
 		</select>
 	</td>

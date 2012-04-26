@@ -27,14 +27,6 @@
 							Добавление текстов
 						[[endif]]
 					</div>
-					/*<div class="action-item [[if request.id_project]]green right-green[[else]]right[[endif]]" >
-						[[if request.id_project]]
-							<a href="/filter.php?id_project={request_tmp.id_project}">Настройка фильтров</a>
-						[[else]]	
-							Настройка фильтров
-						[[endif]]
-						
-					</div>*/
 					</td></tr>
 					</table>
 				</div>

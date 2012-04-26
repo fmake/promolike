@@ -41,4 +41,11 @@ class promoLike_socialset extends fmakeCore{
 		}
 		return $array;
 	}
+	
+	function getSocialSetFirst($id_filter){
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$filter = new promoLike_textlike();
+		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->addOrder("RAND()")->addLimit(0,1)->queryDB();
+		return $result[0];
+	}
 }

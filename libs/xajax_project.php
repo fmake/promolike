@@ -16,6 +16,105 @@ $xajax->register(XAJAX_FUNCTION,"updateTextPage");
 $xajax->register(XAJAX_FUNCTION,"deleteTextPage");
 $xajax->register(XAJAX_FUNCTION,"publicVKtext");
 $xajax->register(XAJAX_FUNCTION,"activeText");
+$xajax->register(XAJAX_FUNCTION,"showPagesTable");
+$xajax->register(XAJAX_FUNCTION,"showTextsPage");
+$xajax->register(XAJAX_FUNCTION,"publicText");
+
+
+function showPagesTable($id_project,$loop){
+	$fmakeProject = new promoLike_project();
+	$fmakePage = new promoLike_page();
+	$fmakeProject->setId($id_project);
+	$project = $fmakeProject->getInfo();
+	if($project){
+		$pages=$fmakePage->getAllPageUser($project['id_user'], $project[$fmakeProject->idField]);	
+		global $twig,$globalTemplateParam;
+		$globalTemplateParam->set('pages',$pages);
+		$globalTemplateParam->set('id_project',$id_project);
+		$text = $twig->loadTemplate("ajax_tpl/show_pages_main_table.tpl")->render($globalTemplateParam->get());
+	}
+	else{
+		$text = '';
+	}
+	$objResponse = new xajaxResponse();
+	$objResponse->assign("table-project".$loop,"innerHTML", $text);
+	return $objResponse;
+}
+
+function showTextsPage($id_page){
+	$fmakeProject = new promoLike_project();
+	$fmakeTextLike = new promoLike_textlike();
+	$texts = $fmakeTextLike->getAllTextPage($id_page);
+	$fmakePage = new promoLike_page();
+	$fmakePage->setId($id_page);
+	$page = $fmakePage->getInfo();
+	global $twig,$globalTemplateParam;
+	$globalTemplateParam->set('texts',$texts);
+	$globalTemplateParam->set('page',$page);
+	$globalTemplateParam->set('id_project',$page[$fmakeProject->idField]);
+	$text = $twig->loadTemplate("ajax_tpl/show_textlike_pages_main_table.tpl")->render($globalTemplateParam->get());
+
+	$objResponse = new xajaxResponse();
+	$objResponse->assign("textlikes-page".$id_page,"innerHTML", $text);
+	return $objResponse;
+}
+
+function publicText($id_page,$id_text_like,$id_user,$id_project) {
+	$fmakePage = new promoLike_page();
+	$fmakeTekstLike = new promoLike_textlike();
+	$fmakeLike = new promoLike_like();
+	
+	$fmakePage->setId($id_page);
+	$page = $fmakePage->getInfo();
+	
+	if(!($page['id_user']==$id_user && $page['id_project']==$id_project)){
+		return false;
+	}
+	else{
+		$fmakePage->setEnum('active');
+	}
+	
+	if($id_text_like){
+		$fmakeLike->addLike($id_text_like);
+	}
+	else{
+		if(!$page['active']){
+			$textpages_active = $fmakeTekstLike->getAllTextPage($id_page,true);
+			if($textpages_active){
+				foreach($textpages_active as $key=>$item){
+					$isItem = $fmakeLike->isTextLikeStatus($item[$fmakeTekstLike->idField],'2');
+					if(!$isItem['count']){
+						$fmakeLike->addLike($item[$fmakeTekstLike->idField]);
+					}
+					else{
+						$fmakeLike->setId($isItem[$fmakeLike->idField]);
+						$fmakeLike->changeStatus(1);
+					}
+				}
+			}
+			else{
+				$fmakePage->setEnum('active');
+			}
+		}
+		else{
+			$likes_page = $fmakeLike->getPageStatus($id_page,1);
+			if($likes_page)foreach ($likes_page as $key=>$item){
+				$fmakeLike->setId($item[$fmakeLike->idField]);
+				$fmakeLike->changeStatus(2);
+			}
+		}
+	}
+
+	
+	
+	$objResponse = new xajaxResponse();
+	if($result_publick->error) $objResponse->assign('error_api','innerHTML','error');
+	if(!$id_text_like){
+		if($page['active']) $objResponse->assign("active".$page[$fmakePage->idField],"src", "/images/control_pause_blue.png");
+		else $objResponse->assign("active".$page[$fmakePage->idField],"src", "/images/control_play_blue.png");
+	}	
+	return $objResponse;
+}
 
 function addTextPage($param,$action = false) {
 	$fmakePage = new promoLike_page();
@@ -261,7 +360,7 @@ function addPage($param,$action = false) {
 			$globalTemplateParam->set('pages',$pages);
 			$globalTemplateParam->set('id_project',$id_project);
 			$globalTemplateParam->set('id_user',$id_user);
-			$all_page_user = $twig->loadTemplate("ajax_tpl/form_page.tpl")->render($globalTemplateParam->get());
+			$all_page_user = $twig->loadTemplate("ajax_tpl/add_page.tpl")->render($globalTemplateParam->get());
 			
 			global $twig,$globalTemplateParam;
 			$globalTemplateParam->set('id_project',$id_project);
@@ -379,12 +478,12 @@ function publicVKtext($id_page,$id_textpage,$id_user,$id_project) {
 	$fmakeTekstLike->setId($id_textpage);
 	$textpage = $fmakeTekstLike->getInfo();
 	
-	/*$api_id = '2629628';
+	$api_id = '2629628';
 	$vk = new fmakeVkapi();
 	//foreach($users as $key=>$user){
 		$user['id_user'] = 5;
 		$vk->SendMessageWall($api_id,$user['id_user'],2,$textpage,$page['url']);
-	//}*/
+	//}
 	
 	
 	$objResponse = new xajaxResponse();
