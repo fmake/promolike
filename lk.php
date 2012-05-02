@@ -15,12 +15,20 @@ $globalTemplateParam->set('active_menu',$active_menu);
 $id = $user->id;
 
 if ($id){
-    $balance_obj = promoLike_balance::getInstance();
     
-    $res = $balance_obj->getBalance($id);
-    $balance = $res['amount']; 
+    $like_obj = new promoLike_like();
+    $like = $like_obj->getAllNewLikes($id);
+    
+    printAr($like);
+    
+    $like_text = $like['like_text'];
+    
+    //$balance_obj = promoLike_balance::getInstance();
+    
+    //$res = $balance_obj->getBalance($id);
+    //$balance = $res['amount']; 
 
-    $globalTemplateParam->set('balance',$balance);
+    //$globalTemplateParam->set('balance',$balance);
 
 }
 
