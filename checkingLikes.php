@@ -18,7 +18,7 @@ $api_id = '2629628';
 $user_object = new fmakeSiteUser();
 $object_likes_from_db = new promoLike_like();
 printAr($object_likes_from_db);
-$array_likes = $object_likes_from_db->getAllLikes($id);
+$array_likes = $object_likes_from_db->getAllNewLikes($id);
 
 printAr($array_likes);
 
