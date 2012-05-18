@@ -12,8 +12,18 @@ $active_menu = 0;
 $globalTemplateParam->set('active_menu',$active_menu);
 /*-------активность главного меню--------*/
 
+$id = $user->id;
 
-$globalTemplateParam->set('qqq',$qqq);
+if ($id){
+    $balance_obj = promoLike_balance::getInstance();
+    
+    $res = $balance_obj->getBalance($id);
+    $balance = $res['amount']; 
+
+    $globalTemplateParam->set('balance',$balance);
+
+}
+
 $globalTemplateParam->set('payments',$payments);
 
 $template = "lk/main.tpl";
