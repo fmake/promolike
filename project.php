@@ -12,6 +12,8 @@ require './modules/APIvk/vkapi.php';
 
 require_once ("./libs/xajax_project.php");
 
+/*проверка работы gidhub через eclipse*/
+
 $globalTemplateParam->set('request_tmp',$_REQUEST);
 //printAr($_REQUEST);
 $userObj = new fmakeSiteUser();
