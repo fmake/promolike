@@ -201,4 +201,16 @@ $(document).ready(function(){
 		}
 		
 	});
+	$(".add_button_like img").live('click',function(){
+		$(this).hide();
+		$(this).parent().parent().find(".form_add_like").show();
+	});
+	$(".button_count_like").live('click',function(){
+		var obj_input = $(this).parent().find("input");
+		var id_place = obj_input.attr("id_place");
+		$(this).parent().hide();
+		$(this).parent().parent().find(".add_button_like img").show();
+		$("#count_like_full_"+id_place).html(obj_input.val())
+		//xajax_addCountLike(obj_input.attr("id_text_like"),obj_input.attr("id_user"),obj_input.attr("id_project"),obj_input.attr("id_place"),obj_input.val());
+	});
 });

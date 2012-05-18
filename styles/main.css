@@ -202,7 +202,7 @@ table.bums-btn{cursor:pointer;height:27px;border-collapse:collapse;border-spacin
 	{color: #ffffff;}	
 	
 .form-table
-	{margin: 40px 0 0 0;}	
+	{margin: 40px 0 0 0;position:relative;}	
 .form-table.filter
 	{margin: 10px 0 0 0;}
 .form-table TD
@@ -436,3 +436,8 @@ div.error span {color: red; border: 1px dashed red;padding: 5px;}
 .table-list TD.list-active-status {width: 120px;}
 .table-list TD.list-active-date {width: 120px;}
 .table-list TD.list-active-text {width: 76%; text-align: center;}
+
+/*-------------------form add like-----------------------------*/
+.form_add_like .input_count_like {width:25px !important;}
+.form_add_like {display:none;}
+/*-------------------form add like-----------------------------*/

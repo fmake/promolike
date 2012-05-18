@@ -11,6 +11,7 @@ $xajax->register(XAJAX_FUNCTION,"updatePage");
 $xajax->register(XAJAX_FUNCTION,"deletePage");
 $xajax->register(XAJAX_FUNCTION,"getTextPage");
 $xajax->register(XAJAX_FUNCTION,"addTextPage");
+$xajax->register(XAJAX_FUNCTION,"addCountLike");
 $xajax->register(XAJAX_FUNCTION,"editTextPage");
 $xajax->register(XAJAX_FUNCTION,"updateTextPage");
 $xajax->register(XAJAX_FUNCTION,"deleteTextPage");
@@ -191,6 +192,26 @@ function getTextPage($id_page){
 	}
 	$objResponse = new xajaxResponse();
 	$objResponse->assign("page_textlike","innerHTML", $text_likes);
+	return $objResponse;
+}
+
+function addCountLike($id_textpage,$id_user,$id_project,$id_place,$count){
+	$fmakePage = new promoLike_page();
+	$fmakeProject = new promoLike_project();
+	$fmakeTekstLike = new promoLike_textlike();
+	$fmakeUser = new fmakeSiteUser();
+	
+	$fmakeTekstLike->setId($id_textpage);
+	$textpage = $fmakeTekstLike->getInfo();
+	$fmakePage->setId($textpage[$fmakePage->idField]);
+	$page = $fmakePage->getInfo();
+	if($page[$fmakeProject->idField]!=$id_project || $page[$fmakeUser->idField]!=$id_user) return false;
+	
+	$promoLikePlace = new promoLike_socialset();
+	$result_count = $promoLikePlace->addParamCount($id_place,$id_textpage,$count);
+	
+	$objResponse = new xajaxResponse();
+	$objResponse->assign("count_like_full_{$id_textpage}","innerHTML", $result_count);
 	return $objResponse;
 }
 

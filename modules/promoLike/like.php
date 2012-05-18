@@ -82,7 +82,7 @@ class promoLike_like extends fmakeCore{
 	function getPageStatus($id_page,$status) {
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$fmakePage = new promoLike_page();
-		return $select->addFrom("`".$this->table."`")->addWhere("`id_page`='".$id_page."'")->addWhere("`status` = '1'")->addWhere("`active` = '1'")->queryDB();
+		return $select->addFrom("`".$this->table."`")->addWhere("`id_page`='{$id_page}'")->addWhere("`status` = '{$status}'")->addWhere("`active` = '1'")->queryDB();
 	}
 	
 	/**

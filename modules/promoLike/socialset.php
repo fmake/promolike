@@ -36,7 +36,7 @@ class promoLike_socialset extends fmakeCore{
 		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->queryDB();
 		if($result){
 			foreach($result as $res){
-				$array[$res[$this->idField]] = 1;
+				$array[$res[$this->idField]] = $res['count'];
 			}
 		}
 		return $array;
@@ -47,5 +47,19 @@ class promoLike_socialset extends fmakeCore{
 		$filter = new promoLike_textlike();
 		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->addOrder("RAND()")->addLimit(0,1)->queryDB();
 		return $result[0];
+	}
+	
+	function getItemParams($id_social_set,$id_filter){
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$filter = new promoLike_textlike();
+		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->addWhere($this->idField." = ".$id_social_set)->queryDB();
+		return $result[0];
+	}
+	
+	function addParamCount($id_social_set,$id_filter,$count){
+		$count = intval($count);
+		$filter = new promoLike_textlike();
+		$this->dataBase->query("UPDATE {$this->table} SET `count` = '{$count}' WHERE `{$this->idField}` = {$id_social_set} AND `{$filter->idField}` = {$id_filter} LIMIT 1 ;",__LINE__);
+		return $count;
 	}
 }

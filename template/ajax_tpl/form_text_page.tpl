@@ -53,7 +53,6 @@
 						<input type="checkbox" class="socset_input" style="width: 23px;" value="1">
 						<input type="hidden" class="socset_input_hidden" name="socset[{item.id_social_set}][]" value="0">
 				    	<img style="margin-top: 3px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
-			    		<span>(1/10) <img src="/images/plus.gif" /></span>
 			    	</span>
 			    	<br/>
 			    [[endfor]]
@@ -100,7 +99,6 @@
 					<input type="checkbox" class="socset_input" style="width: 23px;" value="1">
 					<input type="hidden" class="socset_input_hidden" name="socset[{item.id_social_set}][]" value="0">
 			    	<img style="margin-top: 3px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
-		    		<span>(1/10) <img src="/images/plus.gif" /></span>
 		    	</span>
 		    	<br/>
 		    [[endfor]]

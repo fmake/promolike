@@ -47,16 +47,26 @@
 	<td class="text-middle">
 		[[for key,item in full_soc_set]]
 			<span>
-				<input [[if active_soc_set[item.id_social_set]]]checked="checked"[[endif]] type="checkbox" class="socset_input" style="width: 23px;" value="1">
-				<input type="hidden" class="socset_input_hidden" name="socset[{item.id_social_set}]" value="[[if active_soc_set[item.id_social_set]]]1[[else]]0[[endif]]">
-		    	[[if active_soc_set[item.id_social_set]]]
-					<img style="margin-top: 3px;" rel="active" rel_src="/images/social/no_socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/socialmini{item.id_social_set}.jpg">
-				[[else]]
-					<img style="margin-top: 3px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
-				[[endif]]
-				<span>(1/10) <img src="/images/plus.gif" /></span>
+				<div style="height: 25px;">
+					<input [[if active_soc_set[item.id_social_set]]]checked="checked"[[endif]] type="checkbox" class="socset_input" style="width: 23px;" value="1">
+					<input type="hidden" class="socset_input_hidden" name="socset[{item.id_social_set}]" value="[[if active_soc_set[item.id_social_set]]]1[[else]]0[[endif]]">
+			    	[[if active_soc_set[item.id_social_set]]]
+						<img style="margin-top: 5px;" rel="active" rel_src="/images/social/no_socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/socialmini{item.id_social_set}.jpg">
+					[[else]]
+						<img style="margin-top: 5px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
+					[[endif]]
+					<span>
+						(<span id="count_like_public_{textpage.id_text_like}">0</span>/<span id="count_like_full_{item.id_social_set}">[[if active_soc_set[item.id_social_set]]]{active_soc_set[item.id_social_set]}[[else]]0[[endif]]</span>)
+						<span class="add_button_like"> 
+							<img src="/images/plus.gif" />
+						</span>
+						<span class="form_add_like">
+							<input class="input_count_like" id_user="{id_user}" id_project="{id_project}" id_place="{item.id_social_set}" id_text_like="{textpage.id_text_like}" type="text" value="{active_soc_set[item.id_social_set]}" name="like_count[{item.id_social_set}]">
+			    			<button class="button_count_like" onclick="return false;" name="like_count">Ок</button>
+			    		</span>
+					</span>
+				</div>
 	    	</span>
-	    	<br/>
 	    [[endfor]]
 	</td>
 </tr>

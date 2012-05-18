@@ -224,6 +224,8 @@ switch ($request->action){
 							foreach ($full_soc_set as $key=>$item){
 								if($request->socset[$item['id_social_set']] && !$SocialSet->isSocialSetFilters($item['id_social_set'],$item_text_like['id_text_like'])) $SocialSet->addSocialSet($item['id_social_set'],$item_text_like['id_text_like']);
 								elseif(!$request->socset[$item['id_social_set']] && $SocialSet->isSocialSetFilters($item['id_social_set'],$item_text_like['id_text_like'])) $SocialSet->deleteSocialSet($item['id_social_set'],$item_text_like['id_text_like']);
+								
+								if($request->like_count[$item['id_social_set']]!="") $SocialSet->addParamCount($item['id_social_set'],$item_text_like['id_text_like'],$request->like_count[$item['id_social_set']]);
 							}
 							/*социальные сети*/	
 							
