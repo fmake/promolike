@@ -54,7 +54,9 @@
 				[[else]]
 					<img style="margin-top: 3px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
 				[[endif]]
+				<span>(1/10) <img src="/images/plus.gif" /></span>
 	    	</span>
+	    	<br/>
 	    [[endfor]]
 	</td>
 </tr>
