@@ -14,20 +14,33 @@ class promoLike_socialset extends fmakeCore{
 	function isSocialSetFilters($id_social_set,$id_filter){
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$filter = new promoLike_textlike();
-		$result = $select->addFild("COUNT(*)")->addFrom($this->table)->addWhere($this->idField." = ".$id_social_set)->addWhere($filter->idField." = ".$id_filter)->queryDB();
+		$result = $select->addFild("COUNT(*)")->addFrom($this->table)->addWhere($this->idField." = ".$id_social_set)->addWhere($filter->idField." = ".$id_filter)->addWhere("`active` = '1'")->queryDB();
 		return $result[0]["COUNT(*)"];
 	}
 	
+	
 	function addSocialSet($id_social_set,$id_filter){
+		if($this->getItemParams($id_social_set, $id_filter)){
+			$this->activeSocialSet($id_social_set,$id_filter);
+		}
+		else{
+			$filter = new promoLike_textlike();
+			$this->addParam($this->idField,$id_social_set);
+			$this->addParam($filter->idField,$id_filter);
+			$this->newItem();
+		}
+	}
+	
+	function activeSocialSet($id_social_set,$id_filter){
 		$filter = new promoLike_textlike();
-		$this->addParam($this->idField,$id_social_set);
-		$this->addParam($filter->idField,$id_filter);
-		$this->newItem();
+		//$this->dataBase->query("DELETE FROM ".$this->table." WHERE ".$this->idField." = ".$id_social_set." AND ".$filter->idField." = ".$id_filter." LIMIT 1",__LINE__);
+		$this->dataBase->query("UPDATE {$this->table} SET `active` = '1' WHERE `{$this->idField}` = {$id_social_set} AND `{$filter->idField}` = {$id_filter} LIMIT 1 ;",__LINE__);
 	}
 	
 	function deleteSocialSet($id_social_set,$id_filter){
 		$filter = new promoLike_textlike();
-		$this->dataBase->query("DELETE FROM ".$this->table." WHERE ".$this->idField." = ".$id_social_set." AND ".$filter->idField." = ".$id_filter." LIMIT 1",__LINE__);
+		//$this->dataBase->query("DELETE FROM ".$this->table." WHERE ".$this->idField." = ".$id_social_set." AND ".$filter->idField." = ".$id_filter." LIMIT 1",__LINE__);
+		$this->dataBase->query("UPDATE {$this->table} SET `active` = '0' WHERE `{$this->idField}` = {$id_social_set} AND `{$filter->idField}` = {$id_filter} LIMIT 1 ;",__LINE__);
 	}
 	
 	function getSocialSetFilter($id_filter){
@@ -36,7 +49,7 @@ class promoLike_socialset extends fmakeCore{
 		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->queryDB();
 		if($result){
 			foreach($result as $res){
-				$array[$res[$this->idField]] = $res['count'];
+				$array[$res[$this->idField]] = array("count"=>$res['count'],"active"=>$res['active']);
 			}
 		}
 		return $array;
@@ -45,7 +58,7 @@ class promoLike_socialset extends fmakeCore{
 	function getSocialSetFirst($id_filter){
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$filter = new promoLike_textlike();
-		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->addOrder("RAND()")->addLimit(0,1)->queryDB();
+		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->addWhere("`active` = '1'")->addOrder("RAND()")->addLimit(0,1)->queryDB();
 		return $result[0];
 	}
 	

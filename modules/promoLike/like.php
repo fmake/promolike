@@ -68,13 +68,13 @@ class promoLike_like extends fmakeCore{
 	
 	function getAllLikeStatus($status) {
 		$select = $this->dataBase->SelectFromDB(__LINE__);
-		return $select->addFrom("`".$this->table."`")->addWhere("`status` = '1'")->addWhere("`active` = '1'")->queryDB();
+		return $select->addFrom("`".$this->table."`")->addWhere("`status` = '{$status}'")->addWhere("`active` = '1'")->queryDB();
 	}
 	
 	
 	/**
 	 * 
-	 * Все лайки в очереди со статусом $status страницы
+	 * Все лайки страницы в очереди со статусом $status страницы
 	 * @param int $id_page
 	 * @param int $status
 	 */
@@ -83,6 +83,22 @@ class promoLike_like extends fmakeCore{
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$fmakePage = new promoLike_page();
 		return $select->addFrom("`".$this->table."`")->addWhere("`id_page`='{$id_page}'")->addWhere("`status` = '{$status}'")->addWhere("`active` = '1'")->queryDB();
+	}
+	
+	/**
+	 * 
+	 * Все лайки текста определенной площядки в очереди со статусом $status страницы
+	 * @param int $id_textlike
+	 * @param int $id_place
+	 * @param int $status
+	 */
+	
+	function getTextPlaceStatus($id_textlike,$id_place,$status,$fields = false) {
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$fmakeTextLike = new promoLike_textlike();
+		if($fields)
+			$select->addFild($fields);
+		return $select->addFrom("`".$this->table."`")->addWhere("`{$fmakeTextLike->idField}`='{$id_textlike}'")->addWhere("`id_place`='{$id_place}'")->addWhere("`status` = '{$status}'")->addWhere("`active` = '1'")->queryDB();
 	}
 	
 	/**

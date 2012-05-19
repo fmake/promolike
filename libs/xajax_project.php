@@ -11,7 +11,6 @@ $xajax->register(XAJAX_FUNCTION,"updatePage");
 $xajax->register(XAJAX_FUNCTION,"deletePage");
 $xajax->register(XAJAX_FUNCTION,"getTextPage");
 $xajax->register(XAJAX_FUNCTION,"addTextPage");
-$xajax->register(XAJAX_FUNCTION,"addCountLike");
 $xajax->register(XAJAX_FUNCTION,"editTextPage");
 $xajax->register(XAJAX_FUNCTION,"updateTextPage");
 $xajax->register(XAJAX_FUNCTION,"deleteTextPage");
@@ -195,26 +194,6 @@ function getTextPage($id_page){
 	return $objResponse;
 }
 
-function addCountLike($id_textpage,$id_user,$id_project,$id_place,$count){
-	$fmakePage = new promoLike_page();
-	$fmakeProject = new promoLike_project();
-	$fmakeTekstLike = new promoLike_textlike();
-	$fmakeUser = new fmakeSiteUser();
-	
-	$fmakeTekstLike->setId($id_textpage);
-	$textpage = $fmakeTekstLike->getInfo();
-	$fmakePage->setId($textpage[$fmakePage->idField]);
-	$page = $fmakePage->getInfo();
-	if($page[$fmakeProject->idField]!=$id_project || $page[$fmakeUser->idField]!=$id_user) return false;
-	
-	$promoLikePlace = new promoLike_socialset();
-	$result_count = $promoLikePlace->addParamCount($id_place,$id_textpage,$count);
-	
-	$objResponse = new xajaxResponse();
-	$objResponse->assign("count_like_full_{$id_textpage}","innerHTML", $result_count);
-	return $objResponse;
-}
-
 function editTextPage($id_textpage,$id_user,$id_project){
 	$fmakePage = new promoLike_page();
 	$fmakeProject = new promoLike_project();
@@ -232,6 +211,13 @@ function editTextPage($id_textpage,$id_user,$id_project){
 	$full_soc_set = $SocialSet->getAll(true);
 	$SocialSet = new promoLike_socialset();
 	$active_soc_set = $SocialSet->getSocialSetFilter($id_textpage);
+	
+	$promoLike_like = new promoLike_like();
+	foreach ($full_soc_set as $item){
+		$count = $promoLike_like->getTextPlaceStatus($id_textpage, $item[$SocialSet->idField],4,"COUNT(*)");
+		$publick_soc_set[$item[$SocialSet->idField]] = $count[0]["COUNT(*)"];	
+	}
+	
 	/*социальные сети*/
 	
 	global $twig,$globalTemplateParam;
@@ -241,6 +227,7 @@ function editTextPage($id_textpage,$id_user,$id_project){
 	$globalTemplateParam->set('id_user',$id_user);
 	$globalTemplateParam->set('full_soc_set',$full_soc_set);
 	$globalTemplateParam->set('active_soc_set',$active_soc_set);
+	$globalTemplateParam->set('publick_soc_set',$publick_soc_set);
 	$all_params_page = $twig->loadTemplate("ajax_tpl/form_text_page_edit.tpl")->render($globalTemplateParam->get());
 	
 	$objResponse = new xajaxResponse();

@@ -178,12 +178,17 @@ switch ($request->action){
 								$fmakeTekstLike->addParam('id_page', $request->getEscape('id_page'));
 								$fmakeTekstLike->addParam('caption', mysql_real_escape_string($request->pagetitle[$i]));
 								$fmakeTekstLike->addParam('text_like', mysql_real_escape_string($request->text[$i]));
-								$fmakeTekstLike->newItem();		
+								$fmakeTekstLike->newItem();
 								$item_text_like = $fmakeTekstLike->getInfo(); 
 								/*социальные сети*/
 								$SocialSet = new promoLike_socialset();
 								foreach ($full_soc_set as $key=>$item){
 									if($request->socset[$item['id_social_set']][$i]) $SocialSet->addSocialSet($item['id_social_set'],$item_text_like['id_text_like']);
+									
+									$count = intval($request->like_count[$item['id_social_set']]);
+									if($count){
+										$SocialSet->addParamCount($item['id_social_set'],$item_text_like['id_text_like'],$request->like_count[$item['id_social_set']]);
+									}
 								}
 								/*социальные сети*/
 								
@@ -204,6 +209,7 @@ switch ($request->action){
 						}
 					break;
 					case 'update_text':
+						//printAr($_POST);
 						$fmakePage = new promoLike_page();
 						$fmakeProject = new promoLike_project();
 						$fmakeUser = new fmakeSiteUser();
@@ -222,10 +228,17 @@ switch ($request->action){
 							/*социальные сети*/
 							$SocialSet = new promoLike_socialset();
 							foreach ($full_soc_set as $key=>$item){
-								if($request->socset[$item['id_social_set']] && !$SocialSet->isSocialSetFilters($item['id_social_set'],$item_text_like['id_text_like'])) $SocialSet->addSocialSet($item['id_social_set'],$item_text_like['id_text_like']);
-								elseif(!$request->socset[$item['id_social_set']] && $SocialSet->isSocialSetFilters($item['id_social_set'],$item_text_like['id_text_like'])) $SocialSet->deleteSocialSet($item['id_social_set'],$item_text_like['id_text_like']);
+								if($request->socset[$item['id_social_set']] && !$SocialSet->isSocialSetFilters($item[$SocialSet->idField],$item_text_like[$fmakeTekstLike->idField])) $SocialSet->addSocialSet($item[$SocialSet->idField],$item_text_like[$fmakeTekstLike->idField]);
+								elseif(!$request->socset[$item['id_social_set']] && $SocialSet->isSocialSetFilters($item[$SocialSet->idField],$item_text_like[$fmakeTekstLike->idField])) $SocialSet->deleteSocialSet($item[$SocialSet->idField],$item_text_like[$fmakeTekstLike->idField]);
 								
-								if($request->like_count[$item['id_social_set']]!="") $SocialSet->addParamCount($item['id_social_set'],$item_text_like['id_text_like'],$request->like_count[$item['id_social_set']]);
+								$count = intval($request->like_count[$item[$SocialSet->idField]]);
+								$promoLike_like = new promoLike_like();
+								$count_publick = $promoLike_like->getTextPlaceStatus($item_text_like[$fmakeTekstLike->idField], $item[$SocialSet->idField],4,"COUNT(*)");
+								$count_publick = intval($count_publick[0]["COUNT(*)"]);
+								if($count<$count_publick) $count = $count_publick;
+								if($count){
+									$SocialSet->addParamCount($item[$SocialSet->idField],$item_text_like[$fmakeTekstLike->idField],$count);
+								}
 							}
 							/*социальные сети*/	
 							
