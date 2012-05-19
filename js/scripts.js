@@ -210,7 +210,9 @@ $(document).ready(function(){
 		var id_place = obj_input.attr("id_place");
 		$(this).parent().hide();
 		$(this).parent().parent().find(".add_button_like img").show();
-		$("#count_like_full_"+id_place).html(obj_input.val());
+		var count = parseInt(obj_input.val());
+		if(!count) count = 0;
+		$("#count_like_full_"+id_place).html(count);
 		var image = $(this).parent().parent().parent().find(".image-socset");
 		if(image.attr('rel')!='active') image.click();
 		//xajax_addCountLike(obj_input.attr("id_text_like"),obj_input.attr("id_user"),obj_input.attr("id_project"),obj_input.attr("id_place"),obj_input.val());
