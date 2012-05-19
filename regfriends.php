@@ -39,6 +39,8 @@ switch($request->action){
 				$SocialUser->addParam('uid',$array_result[3][0]);
 				$SocialUser->addParam('tocken',$array_result[1][0]);
 				$SocialUser->newItem();
+				$register_message = 'Спасибо за регистрацию.';
+				$globalTemplateParam->set('register_message',$register_message);
 			}
 			else{
 				$error_message = 'Пользователь с этой учетной записью уже зарегистрирован в системе.';

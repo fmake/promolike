@@ -14,35 +14,39 @@
 		[[if error_message]]
 			<p style="color: red;">{error_message}</p>
 		[[endif]]
-		<div class="inner">
-			<table>
-				<tr>
-					<td class="middle" >
-						Ссылка для регистрации
-					</td>
-					<td class="middle" >
-						<a href="http://api.vk.com/oauth/authorize?client_id=2675562&redirect_uri=http://api.vk.com/blank.html&scope=1008191&display=page&response_type=token" target="_blank">Авторизация в Vkontakte.ru</a>
-					</td>
-				</tr>
-				<tr>
-					<td class="middle" >
-						Параметры
-					</td>
-					<td class="middle" >
-						<input type="hidden" name="action" value="register_vk">
-						<input type="text" name="text_param_vk">
-					</td>
-				</tr>
-				<tr>
-					<td>
-						
-					</td>
-					<td align="right">
-						<a href="./" onclick="$('#loginForm').submit();return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Добавить</span></span></a>
-					</td>
-				</tr>
-			</table>
-		</div>
+		[[if register_message]]
+			<p style="color: green;">{register_message}</p>
+		[[else]]
+			<div class="inner">
+				<table>
+					<tr>
+						<td class="middle" >
+							Ссылка для регистрации
+						</td>
+						<td class="middle" >
+							<a href="http://api.vk.com/oauth/authorize?client_id=2675562&redirect_uri=http://api.vk.com/blank.html&scope=1008191&display=page&response_type=token" target="_blank">Авторизация в Vkontakte.ru</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="middle" >
+							Адресная строка
+						</td>
+						<td class="middle" >
+							<input type="hidden" name="action" value="register_vk">
+							<input type="text" name="text_param_vk">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							
+						</td>
+						<td align="right">
+							<a href="./" onclick="$('#loginForm').submit();return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Добавить</span></span></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		[[endif]]
 		</form>
 	</div>
 </body>
