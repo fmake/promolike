@@ -25,8 +25,14 @@ switch($request->action){
 		}
 		else{
 			if(!$SocialUser->isUserSocSetDuble($array_result[3][0],2)){
+				$new_password = $SocialUser->getNewPassword();
+				$SocialUser->addParam('email', "pr_".md5($new_password)."@promolike.ru");
+				$SocialUser->addParam('password', md5($new_password));
+				$SocialUser->addParam('password', md5($new_password));
+				$SocialUser->newItem();
+				$new_user = $SocialUser->getInfo(); 
 				$SocialUser->table = $SocialUser->table_social;
-				//$SocialUser->addParam($SocialUser->idField,$user->id);
+				$SocialUser->addParam($SocialUser->idField,$new_user[$SocialUser->idField]);
 				$SocialUser->addParam('id_social_set','2');
 				$SocialUser->addParam('uid',$array_result[3][0]);
 				$SocialUser->addParam('tocken',$array_result[1][0]);
