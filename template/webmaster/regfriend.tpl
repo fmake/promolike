@@ -9,7 +9,7 @@
 		<div class="login-head-ru">
 
 		</div>
-		<form id="loginForm" method="POST" id="form_create_socialnetwork">
+		<form id="loginForm" method="POST">
 		<h1>Регистрация в приложении Вконтакте</h1>
 		[[if error_message]]
 			<p style="color: red;">{error_message}</p>
@@ -38,7 +38,7 @@
 						
 					</td>
 					<td align="right">
-						<a href="./" onclick="$(\'#form_create_socialnetwork\').submit();return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Добавить</span></span></a>
+						<a href="./" onclick="$('#loginForm').submit();return false;" class="btn primary-padding"><span class="f20 primary-green" ><span >Добавить</span></span></a>
 					</td>
 				</tr>
 			</table>

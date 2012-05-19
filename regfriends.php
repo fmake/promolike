@@ -1,6 +1,7 @@
 <?
 require('./libs/FController.php');
 require './libs/login.php';
+require('./modules/APIvk/vkapi.php');
 	
 /*if(!$user->isLogined()){
 			header("HTTP/1.1 301 Moved Permanently");
@@ -17,7 +18,7 @@ switch($request->action){
 		$api_id = '2629628';
 		$fmakeVk = new fmakeVkapi($api_id,$array_result[1][0]);
 		$array_param = array('uids'=>$array_result[3][0]);
-		$isuservk = $this->desktop_api('users.get', $array_param);
+		$isuservk = $fmakeVk->desktop_api('users.get', $array_param);
 		$result = $isuservk;
 		if($result->error){
 			$error_message = 'Неправильно скопировали строку.';
@@ -26,11 +27,12 @@ switch($request->action){
 		else{
 			if(!$SocialUser->isUserSocSetDuble($array_result[3][0],2)){
 				$new_password = $SocialUser->getNewPassword();
-				$SocialUser->addParam('email', "pr_".md5($new_password)."@promolike.ru");
-				$SocialUser->addParam('password', md5($new_password));
-				$SocialUser->addParam('password', md5($new_password));
-				$SocialUser->newItem();
-				$new_user = $SocialUser->getInfo(); 
+				$SocialUser_new = new fmakeSiteUser();
+				$SocialUser_new->addParam('email', "pr_".md5($new_password)."@promolike.ru");
+				$SocialUser_new->addParam('password', md5($new_password));
+				$SocialUser_new->addParam('password', md5($new_password));
+				$SocialUser_new->newItem();
+				$new_user = $SocialUser_new->getInfo(); 
 				$SocialUser->table = $SocialUser->table_social;
 				$SocialUser->addParam($SocialUser->idField,$new_user[$SocialUser->idField]);
 				$SocialUser->addParam('id_social_set','2');
