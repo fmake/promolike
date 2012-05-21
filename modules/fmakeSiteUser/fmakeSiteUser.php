@@ -144,8 +144,16 @@
 	 * @param unknown_type $id_social_set
 	 */
 	
-	function getUserRand($id_social_set) {
+	function getUserRand($id_social_set,$like) {
 		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$promoLikeLikes = new promoLike_like();
+		$promoLikeText = new promoLike_textlike();
+		$users = $promoLikeLikes->getUserPublickLike($id_social_set,$like[$promoLikeText->idField]);
+		if($users){
+			foreach ($users as $key=>$item){
+				$select->addWhere("`{$this->idField}`!='{$item[id_user_place]}'");
+			}
+		}
 		$result = $select->addFrom($this->table_social)->addWhere("id_social_set = ".$id_social_set)->addOrder("RAND()")->queryDB();
 		return $result[0];
 	}

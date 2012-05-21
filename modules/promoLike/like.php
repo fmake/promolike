@@ -113,4 +113,17 @@ class promoLike_like extends fmakeCore{
 		$fmakePage = new promoLike_page();
 		return $select->addFrom("`".$this->table."`")->addWhere("`id_place`='".$id_place."'")->addWhere("`id_user_place` = '".$id_user."'")->addWhere("`active` = '1'")->queryDB();
 	}
+	
+	/**
+	 * 
+	 * все пользователи у которых уже опубликован лайк
+	 * @param unknown_type $id_place
+	 * @param unknown_type $id_like
+	 */
+	
+	function getUserPublickLike($id_place,$id_text_like){
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$promoLikeText = new promoLike_textlike();
+		return $select->addFild("id_user_place")->addFrom("`".$this->table."`")->addWhere("`id_place`='{$id_place}'")->addWhere("`{$promoLikeText->idField}`='{$id_text_like}'")->queryDB();
+	}
 }

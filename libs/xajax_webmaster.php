@@ -9,7 +9,7 @@ $xajax->register(XAJAX_FUNCTION,"showListActive");
 
 function showListActive($id_user,$id_place) {
 	
-	$promoLike_like = new promoLike_like();
+	$promoLike_like = new promoLike_likehistory();
 	$likes = $promoLike_like->getUserPlaceAll($id_user,$id_place);
 	
 	
