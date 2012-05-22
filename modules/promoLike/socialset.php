@@ -62,6 +62,18 @@ class promoLike_socialset extends fmakeCore{
 		return $result[0];
 	}
 	
+	function getRandUsePlace($id_filter){
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		$filter = new promoLike_textlike();
+		$promoLikeLikes = new promoLike_like(); 
+		$result = $select->addFrom($this->table)->addWhere($filter->idField." = ".$id_filter)->addWhere("`count` > '0'")->addWhere("`active` = '1'")->addOrder("RAND()")->addLimit(0,1)->queryDB();
+		if($result)foreach ($result as $key=>$item){
+			$use_count = $promoLikeLikes->getTextPlaceStatus($id_filter,$item[$this->idField],1,"COUNT(*)");
+			if($item['count']>$use_count) return $item;
+		}
+		return false;
+	}
+	
 	function getItemParams($id_social_set,$id_filter){
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$filter = new promoLike_textlike();

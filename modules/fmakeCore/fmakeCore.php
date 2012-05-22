@@ -277,7 +277,7 @@ class fmakeCore extends fmakeWhereSelector{
 	function getInfo () 
 	{
 		$select = $this->dataBase->SelectFromDB( __LINE__);
-		$arr = $select -> addFrom($this->table) -> addWhere("`".$this->idField."`='".$this->id."'") -> queryDB();	
+		$arr = $select -> addFrom("`{$this->table}`") -> addWhere("`".$this->idField."`='".$this->id."'") -> queryDB();	
 		return $arr[0];
 	}
 	/**

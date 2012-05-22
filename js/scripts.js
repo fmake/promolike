@@ -121,8 +121,10 @@ $(document).ready(function(){
 		var obj_image = $(this).parent().parent().parent().find('.img-action');
 		var loop = obj_image.attr('rel_loop');
 		var id_project = obj_image.attr('param');
-		if($('#table-project'+loop+' .preloader-table-pages-main').is('.preloader-table-pages-main')){
+		
+		if(obj_image.attr('load')=='0'){
 			obj_image.attr('rel','');
+			obj_image.attr('load','1');
 			//obj_image.attr('src','/images/plus.gif');
 			obj_image.attr('src','/images/minus.gif');
 			$('#table-project'+loop).show();

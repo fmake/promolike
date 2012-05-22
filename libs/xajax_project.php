@@ -73,7 +73,6 @@ function publicText($id_page,$id_text_like,$id_user,$id_project) {
 	else{
 		$fmakePage->setEnum('active');
 	}
-	
 	if($id_text_like){
 		$fmakeLike->addLike($id_text_like);
 	}
