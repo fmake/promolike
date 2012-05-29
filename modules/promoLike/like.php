@@ -124,6 +124,6 @@ class promoLike_like extends fmakeCore{
 	function getUserPublickLike($id_place,$id_text_like){
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$promoLikeText = new promoLike_textlike();
-		return $select->addFild("id_user_place")->addFrom("`".$this->table."`")->addWhere("`id_place`='{$id_place}'")->addWhere("`{$promoLikeText->idField}`='{$id_text_like}'")->queryDB();
+		return $select->addFild("id_user_place")->addFrom("`".$this->table."`")->addWhere("`id_place`='{$id_place}'")->addWhere("`id_user_place`!='0'")->addWhere("`{$promoLikeText->idField}`='{$id_text_like}'")->queryDB();
 	}
 }

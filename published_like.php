@@ -19,6 +19,9 @@ if($likes)foreach ($likes as $key=>$item){
 		break;
 	}*/
 	if($item['id_place']) $user = $PlaceUser->getUserRand($item['id_place'],$item);
+	//echo("<br/>------------------<br/>");
+	//printAr($user);
+	//echo("<br/>------------------<br/>");
 	if($user){
 		switch ($item['id_place']){
 			case '2':

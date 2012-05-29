@@ -149,6 +149,7 @@
 		$promoLikeLikes = new promoLike_like();
 		$promoLikeText = new promoLike_textlike();
 		$users = $promoLikeLikes->getUserPublickLike($id_social_set,$like[$promoLikeText->idField]);
+		//printAr($users);
 		if($users){
 			foreach ($users as $key=>$item){
 				$select->addWhere("`{$this->idField}`!='{$item[id_user_place]}'");
