@@ -66,52 +66,27 @@ function publicText($id_page,$id_text_like,$id_user,$id_project) {
 	
 	$fmakePage->setId($id_page);
 	$page = $fmakePage->getInfo();
+	$fmakeTekstLike->setId($id_text_like);
+	$text_like_info = $fmakeTekstLike->getInfo();
 	
 	if(!($page['id_user']==$id_user && $page['id_project']==$id_project)){
 		return false;
 	}
 	else{
-		$fmakePage->setEnum('active');
+		$fmakeTekstLike->setEnum('publick_active');
 	}
-	if($id_text_like){
-		$fmakeLike->addLike($id_text_like);
+	if(!$text_like_info['publick_active']){
+		$fmakeLike->addLike($id_text_like,$count);
 	}
 	else{
-		if(!$page['active']){
-			$textpages_active = $fmakeTekstLike->getAllTextPage($id_page,true);
-			if($textpages_active){
-				foreach($textpages_active as $key=>$item){
-					$isItem = $fmakeLike->isTextLikeStatus($item[$fmakeTekstLike->idField],'2');
-					if(!$isItem['count']){
-						$fmakeLike->addLike($item[$fmakeTekstLike->idField]);
-					}
-					else{
-						$fmakeLike->setId($isItem[$fmakeLike->idField]);
-						$fmakeLike->changeStatus(1);
-					}
-				}
-			}
-			else{
-				$fmakePage->setEnum('active');
-			}
-		}
-		else{
-			$likes_page = $fmakeLike->getPageStatus($id_page,1);
-			if($likes_page)foreach ($likes_page as $key=>$item){
-				$fmakeLike->setId($item[$fmakeLike->idField]);
-				$fmakeLike->changeStatus(2);
-			}
-		}
+		$fmakeLike->pauseLike($id_text_like);
 	}
 
-	
-	
 	$objResponse = new xajaxResponse();
 	if($result_publick->error) $objResponse->assign('error_api','innerHTML','error');
-	if(!$id_text_like){
-		if($page['active']) $objResponse->assign("active".$page[$fmakePage->idField],"src", "/images/control_pause_blue.png");
-		else $objResponse->assign("active".$page[$fmakePage->idField],"src", "/images/control_play_blue.png");
-	}	
+	
+	if($text_like_info['publick_active']) $objResponse->assign("text_pub_active".$id_text_like,"src", "/images/control_pause_blue.png");
+	else $objResponse->assign("text_pub_active".$id_text_like,"src", "/images/control_play_blue.png");
 	return $objResponse;
 }
 

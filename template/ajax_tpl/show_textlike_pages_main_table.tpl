@@ -36,7 +36,7 @@
 		<td>/*{fmakeFilter.summBudgetPage(user.id,page.id_page,id_project)}*/0</td>
 		<td class="algn-c" >
 			<img src="[[if text.active]]/images/on.gif[[else]]/images/off.gif[[endif]]" title="активность текста" id="active{text.id_text_like}" onclick="xajax_activeText({page.id_page},{text.id_text_like},{user.id},{id_project});return false;"/>
-			<img src="/images/control_play_blue.png" id="active{page.id_page}" onclick="xajax_publicText({page.id_page},{text.id_text_like},{user.id},{id_project});return false;"/>
+			<img src="[[if text.publick_active]]/images/control_play_blue.png[[else]]/images/control_pause_blue.png[[endif]]" id="text_pub_active{text.id_text_like}" onclick="xajax_publicText({page.id_page},{text.id_text_like},{user.id},{id_project});return false;"/>
 		</td>
 		<td class="right" >/*<a href="/filter.php?id_project={id_project}&page={page.id_page}">Добавить фильтры</a>*/</td>
 	</tr>

@@ -24,27 +24,63 @@ class promoLike_like extends fmakeCore{
 	 * Добавление записи в очередь выполнения
 	 * @param int $id_text_like
 	 */
-	function addLike($id_text_like) {
-		$fmakePage = new promoLike_page();
+	function addLike($id_text_like,$count) {
 		$fmakeTextLike = new promoLike_textlike();
 		
 		$fmakeTextLike->setId($id_text_like);
 		$text_like = $fmakeTextLike->getInfo();
 		
-		$fmakePage->setId($text_like['id_page']);
-		$page = $fmakePage->getInfo();
-		
 		$fmakeSocial = new promoLike_socialset();
-		$social_set = $fmakeSocial->getSocialSetFirst($id_text_like);
-		
-		$this->addParam('id_page', $text_like['id_page']);
-		$this->addParam('id_place', $social_set[$fmakeSocial->idField]);
-		$this->addParam('id_text_like', $text_like['id_text_like']);
-		$this->addParam('status', 1);
-		$this->addParam('url', mysql_real_escape_string($page['url']));
-		$this->addParam('like_text', mysql_real_escape_string($text_like['text_like']));
-		$this->addParam('date_creation', time());
-		$this->newItem();
+		$social_set = $fmakeSocial->getSocialSetFilter($id_text_like);
+		//printAr($social_set);
+		foreach ($social_set as $key=>$item){
+			if($item['active']){
+				$arr_status_1 = $this->getTextPlaceStatus($id_text_like,$key,1);
+				$arr_status_2 = $this->getTextPlaceStatus($id_text_like,$key,2);
+				$arr_status_3 = $this->getTextPlaceStatus($id_text_like,$key,3);
+				$arr_status_4 = $this->getTextPlaceStatus($id_text_like,$key,4);
+				$count = intval($item['count']) - (sizeof($arr_status_1)+sizeof($arr_status_3)+sizeof($arr_status_4));
+				if($count>0){
+					$count_pause_like = sizeof($arr_status_2);
+					if($count >= $count_pause_like){
+						$count_result = $count - $count_pause_like;
+						for($i=0;$i<$count_result;$i++){
+							$this->addParam('id_page', $text_like['id_page']);
+							$this->addParam('id_place', $key);
+							$this->addParam('id_text_like', $text_like['id_text_like']);
+							$this->addParam('status', 1);
+							//$this->addParam('url', mysql_real_escape_string($page['url']));
+							//$this->addParam('like_text', mysql_real_escape_string($text_like['text_like']));
+							$this->addParam('date_creation', time());
+							$this->newItem();
+						}
+					}
+					else{
+						$count_result = $count_pause_like - $count;
+						/*удаляем ненужные лайки которые на паузе*/
+						for($i=0;$i<$count_result;$i++){
+							$this->setId($arr_status_2[$count_pause_like-1-$i][$this->idField]);
+							$this->delete();
+						}
+						/*удаляем ненужные лайки которые на паузе*/
+					}
+					/*меняем статус на 1*/
+					$this->updateTextPlaceStatus($id_text_like,$key,2,1);
+					/*меняем статус на 1*/
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * Добавление записи в очередь выполнения
+	 * @param int $id_text_like
+	 */
+	function pauseLike($id_text_like) {
+		/*меняем статус на 1*/
+		$this->updateTextPlaceStatus($id_text_like,false,1,2);
+		/*меняем статус на 1*/	
 	}
 	
 	
@@ -99,6 +135,21 @@ class promoLike_like extends fmakeCore{
 		if($fields)
 			$select->addFild($fields);
 		return $select->addFrom("`".$this->table."`")->addWhere("`{$fmakeTextLike->idField}`='{$id_textlike}'")->addWhere("`id_place`='{$id_place}'")->addWhere("`status` = '{$status}'")->addWhere("`active` = '1'")->queryDB();
+	}
+	/**
+	 * 
+	 * массовая замена статуса у лайков ожидающих очереди публикации
+	 * @param unknown_type $id_textlike
+	 * @param unknown_type $id_place
+	 * @param unknown_type $status
+	 * @param unknown_type $status_to
+	 */
+	function updateTextPlaceStatus($id_textlike,$id_place,$status,$status_to) {
+		$update =  $this->dataBase->UpdateDB( __LINE__);
+		$fmakeTextLike = new promoLike_textlike();
+		if($id_place)
+			$update->addWhere("`id_place`='{$id_place}'");
+		$update->addTable("`".$this->table."`")->addFild("`status`", $status_to)->addWhere("`{$fmakeTextLike->idField}`='{$id_textlike}'")->addWhere("`status` = '{$status}'")->addWhere("`active` = '1'")->queryDB();
 	}
 	
 	/**
