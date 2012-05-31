@@ -24,7 +24,7 @@ class promoLike_like extends fmakeCore{
 	 * Добавление записи в очередь выполнения
 	 * @param int $id_text_like
 	 */
-	function addLike($id_text_like,$count) {
+	function addLike($id_text_like) {
 		$fmakeTextLike = new promoLike_textlike();
 		
 		$fmakeTextLike->setId($id_text_like);
@@ -33,17 +33,36 @@ class promoLike_like extends fmakeCore{
 		$fmakeSocial = new promoLike_socialset();
 		$social_set = $fmakeSocial->getSocialSetFilter($id_text_like);
 		//printAr($social_set);
-		foreach ($social_set as $key=>$item){
+		if($social_set)foreach ($social_set as $key=>$item){
 			if($item['active']){
 				$arr_status_1 = $this->getTextPlaceStatus($id_text_like,$key,1);
 				$arr_status_2 = $this->getTextPlaceStatus($id_text_like,$key,2);
 				$arr_status_3 = $this->getTextPlaceStatus($id_text_like,$key,3);
 				$arr_status_4 = $this->getTextPlaceStatus($id_text_like,$key,4);
-				$count = intval($item['count']) - (sizeof($arr_status_1)+sizeof($arr_status_3)+sizeof($arr_status_4));
+				$count = intval($item['count']) - (sizeof($arr_status_3)+sizeof($arr_status_4));
 				if($count>0){
 					$count_pause_like = sizeof($arr_status_2);
-					if($count >= $count_pause_like){
-						$count_result = $count - $count_pause_like;
+					$count_new_like = sizeof($arr_status_1);
+					if($count < $count_pause_like && $count_new_like==0){
+						$count_result = $count_pause_like - $count;
+						/*удаляем ненужные лайки которые на паузе*/
+						for($i=0;$i<$count_result;$i++){
+							$this->setId($arr_status_2[$count_pause_like-1-$i][$this->idField]);
+							$this->delete();
+						}
+						/*удаляем ненужные лайки которые на паузе*/
+					}
+					elseif($count < $count_new_like && $count_pause_like==0){
+						$count_result = $count_new_like - $count;
+						/*удаляем ненужные лайки*/
+						for($i=0;$i<$count_result;$i++){
+							$this->setId($arr_status_1[$count_new_like-1-$i][$this->idField]);
+							$this->delete();
+						}
+						/*удаляем ненужные лайки*/
+					}
+					else{
+						$count_result = $count - $count_pause_like - $count_new_like;
 						for($i=0;$i<$count_result;$i++){
 							$this->addParam('id_page', $text_like['id_page']);
 							$this->addParam('id_place', $key);
@@ -54,15 +73,6 @@ class promoLike_like extends fmakeCore{
 							$this->addParam('date_creation', time());
 							$this->newItem();
 						}
-					}
-					else{
-						$count_result = $count_pause_like - $count;
-						/*удаляем ненужные лайки которые на паузе*/
-						for($i=0;$i<$count_result;$i++){
-							$this->setId($arr_status_2[$count_pause_like-1-$i][$this->idField]);
-							$this->delete();
-						}
-						/*удаляем ненужные лайки которые на паузе*/
 					}
 					/*меняем статус на 1*/
 					$this->updateTextPlaceStatus($id_text_like,$key,2,1);

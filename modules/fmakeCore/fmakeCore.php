@@ -170,7 +170,7 @@ class fmakeCore extends fmakeWhereSelector{
 	function delete(){
 		
 		$delete = $this->dataBase->DeleteFromDB( __LINE__ );		
-		$delete	-> addTable($this->table) -> addWhere("`".$this->idField."`='".$this->id."'") -> queryDB();
+		$delete	-> addTable("`{$this->table}`") -> addWhere("`".$this->idField."`='".$this->id."'") -> queryDB();
 	}
 	/**
 	 * 

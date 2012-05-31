@@ -3,7 +3,7 @@ require_once ("./libs/xajax/xajax_core/xajax.inc.php");
 
 $xajax = new xajax();
 $xajax->configure('decodeUTF8Input',true);
-//$xajax->configure('debug',true);
+$xajax->configure('debug',true);
 $xajax->configure('javascript URI','./libs/xajax/');
 $xajax->register(XAJAX_FUNCTION,"addPage");
 $xajax->register(XAJAX_FUNCTION,"editPage");
@@ -76,7 +76,7 @@ function publicText($id_page,$id_text_like,$id_user,$id_project) {
 		$fmakeTekstLike->setEnum('publick_active');
 	}
 	if(!$text_like_info['publick_active']){
-		$fmakeLike->addLike($id_text_like,$count);
+		$fmakeLike->addLike($id_text_like);
 	}
 	else{
 		$fmakeLike->pauseLike($id_text_like);

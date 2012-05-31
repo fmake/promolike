@@ -145,6 +145,7 @@ switch ($request->action){
 						$fmakeProject = new promoLike_project();
 						$fmakeUser = new fmakeSiteUser();
 						$fmakeTekstLike = new promoLike_textlike();
+						$fmakeLike = new promoLike_like();
 						$id_project = $request->getEscape('id_project');
 						$id_user = $request->getEscape('id_user');
 						$flag = true;
@@ -183,11 +184,15 @@ switch ($request->action){
 								/*социальные сети*/
 								$SocialSet = new promoLike_socialset();
 								foreach ($full_soc_set as $key=>$item){
-									if($request->socset[$item['id_social_set']][$i]) $SocialSet->addSocialSet($item['id_social_set'],$item_text_like['id_text_like']);
+									if($request->socset[$item[$SocialSet->idField]][$i]) $SocialSet->addSocialSet($item[$SocialSet->idField],$item_text_like[$fmakeTekstLike->idField]);
 									
-									$count = intval($request->like_count[$item['id_social_set']]);
+									$count = intval($request->like_count[$item[$SocialSet->idField]]);
 									if($count){
-										$SocialSet->addParamCount($item['id_social_set'],$item_text_like['id_text_like'],$request->like_count[$item['id_social_set']]);
+										$SocialSet->addParamCount($item[$SocialSet->idField],$item_text_like[$fmakeTekstLike->idField],$request->like_count[$item[$SocialSet->idField]]);
+									}
+									
+									if($item_text_like['publick_active']){
+										$fmakeLike->addLike($item_text_like[$fmakeTekstLike->idField]);
 									}
 								}
 								/*социальные сети*/
