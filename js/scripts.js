@@ -73,18 +73,9 @@ $(document).ready(function(){
 	$('#form_create_text #add-text').live('click',function(){
 		//alert('qq');
 		var obj = $(this).parent().parent();
-		var size = $('.image_input').size();
-		var str1 = '<tr style="padding-bottom: 10px;"><td colspan="2" ><div style="border-bottom: 1px dashed;"><a href="#" class="del_block_text" onclick="return false;">del</a></div></td></tr>';
-		var str2 = '<tr><td class="text-middle" >Заголовок</td><td class="text-middle" ><input type="text" name="pagetitle[]"  /></td></tr>';
-		var str3 = '<tr><td class="text-middle" >Изображение</td><td class="text-middle" ><input class="image_input" type="file" name="image[]"  /></td></tr>';
-		var str4 = '<tr><td class="text-middle" >Текст</td><td class="text-middle" ><textarea name="text[]"></textarea></td></tr>';
-		var str5 = '<tr><td class="text-middle">Соц. сети</td><td class="text-middle"><span><input type="checkbox" value="1" style="width: 23px;" class="socset_input"><input type="hidden" value="0" name="socset[2][]" class="socset_input_hidden"><img src="/images/social/no_socialmini2.jpg" class="image-socset" rel_src="/images/social/socialmini2.jpg" rel="" style="margin-top: 3px;"></span><span><input type="checkbox" value="1" style="width: 23px;" class="socset_input"><input type="hidden" value="0" name="socset[3][]" class="socset_input_hidden"><img src="/images/social/no_socialmini3.jpg" class="image-socset" rel_src="/images/social/socialmini3.jpg" rel="" style="margin-top: 3px;"></span></td></tr>';
-		obj.before(str1);
-		obj.before(str2);
-		obj.before(str3);
-		obj.before(str4);
-		obj.before(str5);
-		//alert(str);
+		var str = '<tr id="add_more_text" style="padding-bottom: 10px;"><td colspan="2" ></td></tr>';
+		obj.before(str);
+		xajax_addMoreText();
 	});
 	$('#form_create_page #add-page').live('click',function(){
 		//alert('qq');
@@ -107,6 +98,7 @@ $(document).ready(function(){
 	});
 	$('#form_create_text .del_block_text').live('click',function(){
 		var obj = $(this).parent().parent().parent();
+		obj.next().remove();
 		obj.next().remove();
 		obj.next().remove();
 		obj.next().remove();

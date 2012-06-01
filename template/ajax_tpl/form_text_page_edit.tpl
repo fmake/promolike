@@ -56,7 +56,7 @@
 						<img style="margin-top: 5px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
 					[[endif]]
 					<span>
-						(<span id="count_like_public_{item.id_social_set}">{publick_soc_set[item.id_social_set]}</span>/<span id="count_like_full_{item.id_social_set}">[[if active_soc_set[item.id_social_set]['count'] ]]{active_soc_set[item.id_social_set]['count']}[[else]]0[[endif]]</span>)
+						(<span title="Опубликованные" class="green" id="count_like_public_{item.id_social_set}">{publick_soc_set[item.id_social_set]}</span>/<span title="Ожидание проверки" class="red" id="count_like_chek_public_{item.id_social_set}">{chek_publick_soc_set[item.id_social_set]}</span>/<span title="Заявки" id="count_like_full_{item.id_social_set}">[[if active_soc_set[item.id_social_set]['count'] ]]{active_soc_set[item.id_social_set]['count']}[[else]]0[[endif]]</span>)
 						<span class="add_button_like"> 
 							<img src="/images/plus.gif" />
 						</span>

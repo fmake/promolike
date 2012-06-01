@@ -95,6 +95,9 @@ h3 { font: 14px/20px 'Arial'; color: #000000;font-weight:bold;}
 .grey{color:#494949;}
 .white{color: #ffffff;}
 .black{color:#000;}
+.green{color: green;}
+.red{color: red;}
+.yellow{color:yellow;}
 
 .topic
 	{background: #eeeeee;border: #d2d2d2 solid 1px;padding: 5px 12px;}

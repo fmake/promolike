@@ -59,7 +59,7 @@
 					    		<img style="margin-top: 3px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
 					    	[[endif]]
 					    	<span>
-								(<span id="count_like_public_{textpage.id_text_like}">0</span>/<span id="count_like_full_{item.id_social_set}">[[if request.like_count[item.id_social_set] ]]{request.like_count[item.id_social_set]}[[else]]0[[endif]]</span>)
+								(<span title="Опубликованные" class="green" id="count_like_public_{textpage.id_text_like}">0</span>/<span title="Ожидание проверки" class="red" id="count_like_chek_public_{item.id_social_set}">0</span>/<span title="Заявки" id="count_like_full_{item.id_social_set}">[[if request.like_count[item.id_social_set] ]]{request.like_count[item.id_social_set]}[[else]]0[[endif]]</span>)
 								<span class="add_button_like"> 
 									<img src="/images/plus.gif" />
 								</span>
@@ -74,7 +74,7 @@
 			</td>
 		</tr>
 	[[endfor]]
-	<tr>
+	<tr id="add_more_text">
 		<td align="right" colspan="2" style="padding-top: 10px;padding-bottom: 10px;" >
 			<a href="" id="add-text" onclick="return false;">еще текст</a>
 		</td>
@@ -116,7 +116,7 @@
 						<input type="hidden" class="socset_input_hidden" name="socset[{item.id_social_set}][]" value="0">
 				    	<img style="margin-top: 3px;" rel="" rel_src="/images/social/socialmini{item.id_social_set}.jpg" class="image-socset" src="/images/social/no_socialmini{item.id_social_set}.jpg">
 			    		<span>
-							(<span id="count_like_public_{textpage.id_text_like}">0</span>/<span id="count_like_full_{item.id_social_set}">[[if active_soc_set[item.id_social_set]]]{active_soc_set[item.id_social_set]}[[else]]0[[endif]]</span>)
+							(<span title="Опубликованные" class="green" id="count_like_public_{textpage.id_text_like}">0</span>/<span title="Ожидание проверки" class="red" id="count_like_chek_public_{item.id_social_set}">0</span>/<span title="Заявки" id="count_like_full_{item.id_social_set}">[[if active_soc_set[item.id_social_set]]]{active_soc_set[item.id_social_set]}[[else]]0[[endif]]</span>)
 							<span class="add_button_like"> 
 								<img src="/images/plus.gif" />
 							</span>

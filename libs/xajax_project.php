@@ -3,7 +3,7 @@ require_once ("./libs/xajax/xajax_core/xajax.inc.php");
 
 $xajax = new xajax();
 $xajax->configure('decodeUTF8Input',true);
-$xajax->configure('debug',true);
+//$xajax->configure('debug',true);
 $xajax->configure('javascript URI','./libs/xajax/');
 $xajax->register(XAJAX_FUNCTION,"addPage");
 $xajax->register(XAJAX_FUNCTION,"editPage");
@@ -19,7 +19,24 @@ $xajax->register(XAJAX_FUNCTION,"activeText");
 $xajax->register(XAJAX_FUNCTION,"showPagesTable");
 $xajax->register(XAJAX_FUNCTION,"showTextsPage");
 $xajax->register(XAJAX_FUNCTION,"publicText");
+$xajax->register(XAJAX_FUNCTION,"addMoreText");
 
+
+function addMoreText(){
+	/*социальные сети*/
+	$SocialSet = new promoLike_socialset();
+	$SocialSet->table = $SocialSet->table_name;
+	$full_soc_set = $SocialSet->getAll(true);
+	/*социальные сети*/	
+	
+	global $twig,$globalTemplateParam;
+	$globalTemplateParam->set('full_soc_set',$full_soc_set);
+	$text = $twig->loadTemplate("ajax_tpl/form_more_text_page.tpl")->render($globalTemplateParam->get());
+
+	$objResponse = new xajaxResponse();
+	$objResponse->assign("add_more_text","outerHTML", $text);//('$(\'#form_create_text #add-text\').parent().parent().before('.$text.');');
+	return $objResponse;
+}
 
 function showPagesTable($id_project,$loop){
 	$fmakeProject = new promoLike_project();
@@ -189,7 +206,9 @@ function editTextPage($id_textpage,$id_user,$id_project){
 	$promoLike_like = new promoLike_like();
 	foreach ($full_soc_set as $item){
 		$count = $promoLike_like->getTextPlaceStatus($id_textpage, $item[$SocialSet->idField],4,"COUNT(*)");
-		$publick_soc_set[$item[$SocialSet->idField]] = $count[0]["COUNT(*)"];	
+		$count2 = $promoLike_like->getTextPlaceStatus($id_textpage, $item[$SocialSet->idField],3,"COUNT(*)");
+		$publick_soc_set[$item[$SocialSet->idField]] = $count[0]["COUNT(*)"];
+		$chek_publick_soc_set[$item[$SocialSet->idField]] = $count2[0]["COUNT(*)"];	
 	}
 	
 	/*социальные сети*/
@@ -202,6 +221,7 @@ function editTextPage($id_textpage,$id_user,$id_project){
 	$globalTemplateParam->set('full_soc_set',$full_soc_set);
 	$globalTemplateParam->set('active_soc_set',$active_soc_set);
 	$globalTemplateParam->set('publick_soc_set',$publick_soc_set);
+	$globalTemplateParam->set('chek_publick_soc_set',$chek_publick_soc_set);
 	$all_params_page = $twig->loadTemplate("ajax_tpl/form_text_page_edit.tpl")->render($globalTemplateParam->get());
 	
 	$objResponse = new xajaxResponse();
