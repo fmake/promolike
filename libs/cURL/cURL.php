@@ -150,6 +150,27 @@
 			return $this->exec();			
 		}
 		
+		function get_proxi($url,$ip,$port){
+			
+			$this->url = $url;
+			
+			if( empty($this->url) ){
+				$this->error = 'Не указан URL';
+				return false;
+			}
+			if( empty($ip) && empty($port) ){
+				$this->error = 'Не IP или port proxy сервера';
+				return false;
+			}
+			
+			$this->set_opt(CURLOPT_URL,$this->url);
+			$this->set_opt(CURLOPT_PROXY,$ip);
+			$this->set_opt(CURLOPT_PROXYPORT,$port);
+			$this->set_opt(CURLOPT_POST,false);
+
+			return $this->exec();			
+		}
+		
 		
 		function https_get($url){
 			

@@ -38,6 +38,9 @@ if($likes)foreach ($likes as $key=>$item){
 						$plase_array_error[$item['id_place']] = false;
 						echo("Ошибка капча.<br/>");
 					}
+					elseif($res->error->error_code==5){
+						echo("Просрочен tocken<br/>");
+					}
 					elseif($res->response){
 						$promoLike->setId($item[$promoLike->idField]);
 						//$promoLike->addParam('id_place', $item_place);
