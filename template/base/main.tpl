@@ -4,7 +4,7 @@
 		
 		<div id="header" >
 			
-[[ include TEMPLATE_PATH ~ "blocks/menu.tpl"]]
+		[[ include TEMPLATE_PATH ~ "blocks/menu.tpl"]]
 			
 		[[ include TEMPLATE_PATH ~ "blocks/block_lk.tpl"]]	
 			
