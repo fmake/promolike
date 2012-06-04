@@ -24,7 +24,6 @@ $api_id = '2629628';
 $id_user = intval($_GET['id_user']);
 $id_soc_set = intval($_GET['id_soc_set']);
 $id_textlike = intval($_GET['id_textlike']);
-$id_user = intval($_GET['id_user']);
 switch($_GET['action']){
 	case 'send_message_vk':
 		$vk = new fmakeVkapi();
@@ -34,9 +33,10 @@ switch($_GET['action']){
 		$textlike = $fmakeTextLike->getInfo();
 		$fmakePage->setId($textlike[$fmakePage->idField]);
 		$page = $fmakePage->getInfo();
-		$result = $vk->SendMessageWall($api_id, $id_user, $id_soc_set, $textlike, $page['url']);
+		if($id_user && $id_soc_set && $textlike && $page) $result = $vk->SendMessageWall($api_id, $id_user, $id_soc_set, $textlike, $page['url']);
+		else $result = array('error'=>'неполная информация на входе');
 	break;
 }
-
-printAr($result);
+//test.promolike.ru/vkontakte.php?id_user=5&id_soc_set=2&id_textlike=1&action=send_message_vk
+echo json_encode($result);
 //return $result;
