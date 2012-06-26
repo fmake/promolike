@@ -9,7 +9,7 @@ $promoLikeUsers->idField = "id";
 $promoLikeUsers->table = $promoLikeUsers->table_social;
 
 
-$all_place_users = $promoLikeUsers->getAll();
+$all_place_users = $promoLikeUsers->getAll(true);
 
 if($all_place_users)foreach ($all_place_users as $key=>$item){
 	switch ($item[$promoLikePlace->idField]){

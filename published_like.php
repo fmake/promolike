@@ -16,7 +16,7 @@ $likes = $promoLike->getAllLikeStatus(1);
 if($likes)foreach ($likes as $key=>$item){
 
 	if($item['id_place']) $user = $PlaceUser->getUserRand($item['id_place'],$item);
-	echo('ww');
+	//echo('ww');
 	if($user){
 		/*информация о лайке*/
 		$promoLike_textlike->setId($item[$promoLike_textlike->idField]);

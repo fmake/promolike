@@ -155,7 +155,7 @@
 				$select->addWhere("`{$this->idField}`!='{$item[id_user_place]}'");
 			}
 		}
-		$result = $select->addFrom($this->table_social)->addWhere("id_social_set = ".$id_social_set)->addOrder("RAND()")->queryDB();
+		$result = $select->addFrom($this->table_social)->addWhere("id_social_set = ".$id_social_set)->addWhere("`active` = '1'")->addOrder("RAND()")->queryDB();
 		return $result[0];
 	}
 	
