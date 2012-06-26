@@ -23,6 +23,11 @@
 		$url = 'https://api.vkontakte.ru/method/'.$method.'?'.$str;
 		$curl = new cURL();
 		$curl -> init();
+		/*выбираем из таблицы прокси*/
+		$fmakeproxy = new fmakeProxy();
+		$proxy = $fmakeproxy->getRandProxy();
+		/*выбираем из таблицы прокси*/
+		$curl->set_opt(CURLOPT_PROXY,$proxy['proxy']);
 		$curl -> get($url);
 		$result = $curl -> data();
 		$res = json_decode($result);
