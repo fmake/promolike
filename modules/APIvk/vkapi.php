@@ -11,7 +11,7 @@
      }
     
     
-	public function desktop_api($method, $data='') {
+	public function desktop_api($method, $data='',$proxy = false) {
 
 		if ($data) {
 			foreach ($data as $k => $v) {
@@ -23,11 +23,13 @@
 		$url = 'https://api.vkontakte.ru/method/'.$method.'?'.$str;
 		$curl = new cURL();
 		$curl -> init();
-		/*выбираем из таблицы прокси*/
-		$fmakeproxy = new fmakeProxy();
-		$proxy = $fmakeproxy->getRandProxy();
-		/*выбираем из таблицы прокси*/
-		$curl->set_opt(CURLOPT_PROXY,$proxy['proxy']);
+		if($proxy){
+			/*выбираем из таблицы прокси*/
+			$fmakeproxy = new fmakeProxy();
+			$proxy = $fmakeproxy->getRandProxy();
+			/*выбираем из таблицы прокси*/
+			$curl->set_opt(CURLOPT_PROXY,$proxy['proxy']);
+		}
 		$curl -> get($url);
 		$result = $curl -> data();
 		$res = json_decode($result);
@@ -59,7 +61,7 @@
 		$image = ROOT."/images/image_textlike/{$textpage['id_text_like']}/thumbs/{$textpage['image']}";
 		//$image = ROOT."/images/image_textlike/{$textpage['id_text_like']}/{$textpage['image']}";
 		if(file_exists($image)){
-			$photo_vk_wall_messages = $this->desktop_api('photos.getWallUploadServer', array('uid'=>$params_user_vk['uid']));
+			$photo_vk_wall_messages = $this->desktop_api('photos.getWallUploadServer', array('uid'=>$params_user_vk['uid']),true);
 
 			$resp = $photo_vk_wall_messages->response;
 
@@ -72,14 +74,14 @@
 			curl_close($ch);
 			$result = json_decode($result);
 			//printAr($result);
-			$photo_vk_upload = $this->desktop_api('photos.saveWallPhoto', array('server'=>$result->server,'photo'=>$result->photo,'hash'=>$result->hash));
+			$photo_vk_upload = $this->desktop_api('photos.saveWallPhoto', array('server'=>$result->server,'photo'=>$result->photo,'hash'=>$result->hash),true);
 			//printAr($photo_vk_upload);
 			$photo_params = $photo_vk_upload->response[0];
 			$array_param['attachments'] = $photo_params->id.',';
 		}
 		if($link) $array_param['attachments'] .= $link;
 		
-		$send_vk_wall_messages = $this->desktop_api('wall.post', $array_param);
+		$send_vk_wall_messages = $this->desktop_api('wall.post', $array_param,true);
 		return $send_vk_wall_messages;
 	}   
  }

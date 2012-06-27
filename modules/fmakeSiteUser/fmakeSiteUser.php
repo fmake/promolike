@@ -168,7 +168,7 @@
 	function getActiveSocialUser($id_user) {
 		$select = $this->dataBase->SelectFromDB(__LINE__);
 		$SocialSet = new promoLike_socialset();
-		$result = $select->addFild($this->table_social.".id,".$this->table_social.".id_user,".$this->table_social.".id_social_set,".$this->table_social.".uid,".$this->table_social.".nickname,".$SocialSet->table_name.".name as socname")->addFrom($this->table_social." LEFT JOIN ".$SocialSet->table_name." ON ".$this->table_social.".".$SocialSet->idField." = ".$SocialSet->table_name.".".$SocialSet->idField)->addWhere($this->idField.' = '.$id_user)->queryDB();
+		$result = $select->addFild($this->table_social.".id,".$this->table_social.".id_user,".$this->table_social.".id_social_set,".$this->table_social.".uid,".$this->table_social.".nickname,".$this->table_social.".active,".$SocialSet->table_name.".name as socname")->addFrom($this->table_social." LEFT JOIN ".$SocialSet->table_name." ON ".$this->table_social.".".$SocialSet->idField." = ".$SocialSet->table_name.".".$SocialSet->idField)->addWhere($this->idField.' = '.$id_user)->queryDB();
 		return $result;
 	}
 	
