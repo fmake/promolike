@@ -33,6 +33,7 @@ if($all_place_users)foreach ($all_place_users as $key=>$item){
 			}
 			break;
 		case '3':
+			
 			break;
 	}
 }

@@ -60,7 +60,12 @@ if($likes)foreach ($likes as $key=>$item){
 			case '3':
 				if($plase_array_error[$item['id_place']]){
 					
-					echo("запостили в твитер сообщение пользователю {$user[id_user]}: {$item_info[like_text]} <br/>");
+					$url = 'http://'.$hostname.'/twitter.php?id_user='.$user[id_user].'&id_soc_set='.$item['id_place'].'&id_textlike='.$text_like[$promoLike_textlike->idField].'&action=post_message&key=1029384756';
+					$curl = new cURL();
+					$curl -> init();
+					$curl -> get($url);
+					$result = $curl -> data();
+					$res = json_decode($result);
 					
 					$promoLike->setId($item[$promoLike->idField]);
 					//$promoLike->addParam('id_place', $item_place);
@@ -72,6 +77,8 @@ if($likes)foreach ($likes as $key=>$item){
 					$promoLike->update();
 					$item_info = $promoLike->getInfo();
 					$promoLikeHistory->dublicateHistory($item_info);
+				
+					echo("запостили в твитер сообщение пользователю {$user[id_user]}: {$item_info[like_text]} <br/>");
 				}				
 				break;	
 		}

@@ -55,6 +55,36 @@ switch($_GET['action']){
 			header('Location: '.$request_link);
 		}
 		break;
+	case 'post_message':
+		$id_user = intval($_GET['id_user']);
+		$id_soc_set = intval($_GET['id_soc_set']);
+		$id_textlike = $_GET['id_textlike'];
+		$user_params = $SocialUser->getUserSocialParam($id_user,3);
+		if($user_params['tocken'] && $user_params['secret_tocken'] && $_GET['key']=='1029384756' && $_GET['id_textlike']){
+			$access_token = $user_params['tocken'];
+			$access_token_secret = $user_params['secret_tocken'];
+			// А теперь можно проверить
+			$twitter = new TwitterOAuth($consumer_key,$consumer_secret,$access_token,$access_token_secret);
+			
+			
+			$fmakeTextLike = new promoLike_textlike();
+			$fmakePage = new promoLike_page();
+			$fmakeTextLike->setId($id_textlike);
+			$textlike = $fmakeTextLike->getInfo();
+			$fmakePage->setId($textlike[$fmakePage->idField]);
+			$page = $fmakePage->getInfo();
+			
+			/*параметры твита*/
+			$link = $page['url'];
+			$text = $textlike['text_like'];
+			
+			$params = array("status"=>$text." ".$link);
+			/*параметры твита*/
+			
+			$result = $twitter->post("statuses/update",$params);   
+			//printAr($result);
+		}
+		break;
 }
 if($_GET['oauth_verifier'] && $_GET['oauth_token']){
 	// сначала получим сохраненные временные ключи
@@ -93,6 +123,8 @@ if($_GET['oauth_verifier'] && $_GET['oauth_token']){
 	 //$globalConfigsTwitter ->udateByValue('user_twitter', $credentials->screen_name);
 	if(!$SocialUser->isUserSocSetDuble($credentials->screen_name,3)){
 		$SocialUser->table = $SocialUser->table_social;
+		$SocialUser->addParam($SocialUser->idField,$user->id);
+		$SocialUser->addParam('id_social_set','3');
 		$SocialUser->addParam('nickname',$credentials->screen_name);
 		$SocialUser->addParam('tocken',$access_token);
 		$SocialUser->addParam('secret_tocken',$access_token_secret);
