@@ -31,8 +31,8 @@
 			</div>
 		</td>
 		<td>0</td>
-		<td><a href="">0</a></td>
-		<td><a href="">0</a></td>
+		<td><a rel_id="{text.id_text_like}" rel_type="text" rel_status="2" class="show_stat_like" href="">{text.stat['count_like']}</a></td>
+		<td><a rel_id="{text.id_text_like}" rel_type="text" rel_status="1" class="show_stat_like" href="">{text.stat['count_zayavka']}</a></td>
 		<td>/*{fmakeFilter.summBudgetPage(user.id,page.id_page,id_project)}*/0</td>
 		<td class="algn-c" >
 			<img src="[[if text.active]]/images/on.gif[[else]]/images/off.gif[[endif]]" title="активность текста" id="active{text.id_text_like}" onclick="xajax_activeText({page.id_page},{text.id_text_like},{user.id},{id_project});return false;"/>

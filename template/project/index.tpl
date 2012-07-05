@@ -46,10 +46,10 @@
 									<div class="long_link_hidder hidder_gray">&nbsp;</div>
 								</div>
 							</td>
-							<td>956</td>
-							<td><a href="">158</a></td>
-							<td><a href="">75</a></td>
-							<td>5200</td>
+							<td>0</td>
+							<td><a rel_id="{project.id_project}" rel_type="project" rel_status="2" class="show_stat_like" href="">{project.stat['count_like']}</a></td>
+							<td><a rel_id="{project.id_project}" rel_type="project" rel_status="1" class="show_stat_like" href="">{project.stat['count_zayavka']}</a></td>
+							<td>0</td>
 							<td></td>
 							<td class="right" ><a href="/project.php?id_project={project.id_project}&action=add_page" class="btn primary-padding"><span class="f12 primary-green" ><span>+ Добавить страницу</span></span></a></td>
 						</tr>
@@ -61,7 +61,9 @@
 					</tr>
 				</table>
 				[[endfor]]
-				
+				<div id="popup">
+					
+				</div>
 				
 			</div>
 			

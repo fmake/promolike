@@ -211,4 +211,17 @@ $(document).ready(function(){
 		if(image.attr('rel')!='active') image.click();
 		//xajax_addCountLike(obj_input.attr("id_text_like"),obj_input.attr("id_user"),obj_input.attr("id_project"),obj_input.attr("id_place"),obj_input.val());
 	});
+	
+	$('.show_stat_like').live('mouseover mouseout', function(event) {
+		if (event.type == 'mouseover') {
+			$("#popup").css({'left':$(this).offset().left,'top':$(this).offset().top-100});
+			$("#popup").html('<img src="/images/preloader-main-table.gif" />');
+			$("#popup").show();
+			xajax_getPlaceStat($(this).attr('rel_type'),$(this).attr('rel_id'),$(this).attr('rel_status'));
+		}
+		else{
+			$("#popup").hide();
+		}
+	});
+
 });

@@ -20,7 +20,52 @@ $xajax->register(XAJAX_FUNCTION,"showPagesTable");
 $xajax->register(XAJAX_FUNCTION,"showTextsPage");
 $xajax->register(XAJAX_FUNCTION,"publicText");
 $xajax->register(XAJAX_FUNCTION,"addMoreText");
+$xajax->register(XAJAX_FUNCTION,"getPlaceStat");
 
+function getPlaceStat($type,$id,$status){
+	$fmakeProject = new promoLike_project();
+	$fmakePage = new promoLike_page();
+	$fmakeTextLike = new promoLike_textlike();
+	$fmakeLike = new promoLike_like();
+	/*социальные сети*/
+	$SocialSet = new promoLike_socialset();
+	$SocialSet->table = $SocialSet->table_name;
+	$full_soc_set = $SocialSet->getAll(true);
+	/*социальные сети*/	
+	switch ($type){
+		case 'project':
+			if($full_soc_set)foreach ($full_soc_set as $key=>$item){
+				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$id}')","COUNT(*)",true);
+				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$id}')","COUNT(*)",true);
+				$full_soc_set[$key]['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
+			}
+			break;
+		case 'page':
+			if($full_soc_set)foreach ($full_soc_set as $key=>$item){
+				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}`='{$id}'","COUNT(*)",true);
+				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}`='{$id}'","COUNT(*)",true);
+				$full_soc_set[$key]['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
+			}
+			break;
+		case 'text':
+			if($full_soc_set)foreach ($full_soc_set as $key=>$item){
+				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakeTextLike->idField}`='{$id}'","COUNT(*)",true);
+				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakeTextLike->idField}`='{$id}'","COUNT(*)",true);
+				$full_soc_set[$key]['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
+			}
+			break;
+		default:
+			$count_like = false;
+			break;
+	}
+	//printAr($full_soc_set);
+	global $twig,$globalTemplateParam;
+	$globalTemplateParam->set('full_soc_set',$full_soc_set);
+	$text = $twig->loadTemplate("ajax_tpl/popup_stat_main_place.tpl")->render($globalTemplateParam->get());
+	$objResponse = new xajaxResponse();
+	$objResponse->assign("popup","innerHTML", $text);
+	return $objResponse;
+}
 
 function addMoreText(){
 	/*социальные сети*/
@@ -41,10 +86,17 @@ function addMoreText(){
 function showPagesTable($id_project,$loop){
 	$fmakeProject = new promoLike_project();
 	$fmakePage = new promoLike_page();
+	$fmakeLike = new promoLike_like();
 	$fmakeProject->setId($id_project);
 	$project = $fmakeProject->getInfo();
 	if($project){
-		$pages=$fmakePage->getAllPageUser($project['id_user'], $project[$fmakeProject->idField]);	
+		$pages=$fmakePage->getAllPageUser($project['id_user'], $project[$fmakeProject->idField]);
+		if($pages)foreach ($pages as $key=>$item){
+			$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `{$fmakePage->idField}`='{$item[$fmakePage->idField]}'","COUNT(*)",true);
+			$pages[$key]['stat']['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
+			$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `{$fmakePage->idField}`='{$item[$fmakePage->idField]}'","COUNT(*)",true);
+			$pages[$key]['stat']['count_zayavka'] = ($count_zayavka[0]['COUNT(*)'])? $count_zayavka[0]['COUNT(*)']:0;
+		}	
 		global $twig,$globalTemplateParam;
 		$globalTemplateParam->set('pages',$pages);
 		$globalTemplateParam->set('id_project',$id_project);
@@ -61,7 +113,14 @@ function showPagesTable($id_project,$loop){
 function showTextsPage($id_page){
 	$fmakeProject = new promoLike_project();
 	$fmakeTextLike = new promoLike_textlike();
+	$fmakeLike = new promoLike_like();
 	$texts = $fmakeTextLike->getAllTextPage($id_page);
+	if($texts)foreach ($texts as $key=>$item){
+		$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `{$fmakeTextLike->idField}`='{$item[$fmakeTextLike->idField]}'","COUNT(*)",true);
+		$texts[$key]['stat']['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
+		$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `{$fmakeTextLike->idField}`='{$item[$fmakeTextLike->idField]}'","COUNT(*)",true);
+		$texts[$key]['stat']['count_zayavka'] = ($count_zayavka[0]['COUNT(*)'])? $count_zayavka[0]['COUNT(*)']:0;
+	}
 	$fmakePage = new promoLike_page();
 	$fmakePage->setId($id_page);
 	$page = $fmakePage->getInfo();

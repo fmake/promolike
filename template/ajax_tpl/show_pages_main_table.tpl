@@ -30,8 +30,8 @@
 			</div>
 		</td>
 		<td>0</td>
-		<td><a href="">0</a></td>
-		<td><a href="">0</a></td>
+		<td><a rel_id="{page.id_page}" rel_type="page" rel_status="2" class="show_stat_like" href="">{page.stat['count_like']}</a></td>
+		<td><a rel_id="{page.id_page}" rel_type="page" rel_status="1" class="show_stat_like" href="">{page.stat['count_zayavka']}</a></td>
 		<td>/*{fmakeFilter.summBudgetPage(user.id,page.id_page,id_project)}*/0</td>
 		<td class="algn-c" >/*<a href=""><img src="[[if page.active]]/images/control_play_blue.png[[else]]/images/control_pause_blue.png[[endif]]" id="active{page.id_page}" onclick="xajax_publicText({page.id_page},0,{user.id},{id_project});return false;"/> </a>*/</td>
 		<td class="right" ><span class="dashed page-textlikes" page="{page.id_page}" load="" rel="">Показать тексты</span>/*<a href="/filter.php?id_project={id_project}&page={page.id_page}">Добавить фильтры</a>*/</td>

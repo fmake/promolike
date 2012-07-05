@@ -187,4 +187,22 @@ class promoLike_like extends fmakeCore{
 		$promoLikeText = new promoLike_textlike();
 		return $select->addFild("id_user_place")->addFrom("`".$this->table."`")->addWhere("`id_place`='{$id_place}'")->addWhere("`id_user_place`!='0'")->addWhere("`{$promoLikeText->idField}`='{$id_text_like}'")->queryDB();
 	}
+	
+	/**
+	 * 
+	 * универсальная функция для работы с таблицей
+	 * @param unknown_type $id_place
+	 * @param unknown_type $id_like
+	 */
+	
+	function getQuery($where = false,$fields = false,$active = false){
+		$select = $this->dataBase->SelectFromDB(__LINE__);
+		if($where)
+			$select->addWhere(" ( {$where} ) ");
+		if($fields)
+			$select->addFild($fields);
+		if($active)
+			$select->addWhere("`active` = '1'");
+		return $select->addFrom("`".$this->table."`")->queryDB();
+	}
 }
