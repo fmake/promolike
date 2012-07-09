@@ -21,9 +21,9 @@ $projects = $fmakeProject->getAllProject($user->id);
 $fmakeLike = new promoLike_like();
 
 if($projects)foreach ($projects as $key=>$item){
-	$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$item[$fmakeProject->idField]}')","COUNT(*)",true);
+	$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`!='0' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$item[$fmakeProject->idField]}')","COUNT(*)",true);
 	$projects[$key]['stat']['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
-	$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$item[$fmakeProject->idField]}')","COUNT(*)",true);
+	$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`!='0' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$item[$fmakeProject->idField]}')","COUNT(*)",true);
 	$projects[$key]['stat']['count_zayavka'] = ($count_zayavka[0]['COUNT(*)'])? $count_zayavka[0]['COUNT(*)']:0;
 }
 

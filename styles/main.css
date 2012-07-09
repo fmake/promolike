@@ -148,7 +148,7 @@ table.bums-btn{cursor:pointer;height:27px;border-collapse:collapse;border-spacin
 #companys
 	{margin: 20px 0px 0 0;}
 #companys #popup 
-	{padding: 10px;position: absolute;left: 0px;top:15px;border: 1px solid;background: white;display: none;}
+	{padding: 10px 20px;position: absolute;left: 0px;top:15px;border: 1px solid;background: white;display: none;}
 
 .company
 	{width: 100%;border-collapse:collapse;margin: 30px 0 0 0;position: relative;}

@@ -35,22 +35,22 @@ function getPlaceStat($type,$id,$status){
 	switch ($type){
 		case 'project':
 			if($full_soc_set)foreach ($full_soc_set as $key=>$item){
-				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$id}')","COUNT(*)",true);
-				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$id}')","COUNT(*)",true);
+				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`!='0' AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$id}')","COUNT(*)",true);
+				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`!='0' AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}` in (SELECT `{$fmakePage->idField}` FROM `{$fmakePage->table}` WHERE `{$fmakeProject->idField}`='{$id}')","COUNT(*)",true);
 				$full_soc_set[$key]['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
 			}
 			break;
 		case 'page':
 			if($full_soc_set)foreach ($full_soc_set as $key=>$item){
-				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}`='{$id}'","COUNT(*)",true);
-				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}`='{$id}'","COUNT(*)",true);
+				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`!='0' AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}`='{$id}'","COUNT(*)",true);
+				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`!='0' AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakePage->idField}`='{$id}'","COUNT(*)",true);
 				$full_soc_set[$key]['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
 			}
 			break;
 		case 'text':
 			if($full_soc_set)foreach ($full_soc_set as $key=>$item){
-				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakeTextLike->idField}`='{$id}'","COUNT(*)",true);
-				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakeTextLike->idField}`='{$id}'","COUNT(*)",true);
+				if($status == '1') $count_like = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`!='0' AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakeTextLike->idField}`='{$id}'","COUNT(*)",true);
+				else $count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`!='0' AND `id_place`='{$item[$SocialSet->idField]}' AND `{$fmakeTextLike->idField}`='{$id}'","COUNT(*)",true);
 				$full_soc_set[$key]['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
 			}
 			break;
@@ -92,9 +92,9 @@ function showPagesTable($id_project,$loop){
 	if($project){
 		$pages=$fmakePage->getAllPageUser($project['id_user'], $project[$fmakeProject->idField]);
 		if($pages)foreach ($pages as $key=>$item){
-			$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `{$fmakePage->idField}`='{$item[$fmakePage->idField]}'","COUNT(*)",true);
+			$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`!='0' AND `{$fmakePage->idField}`='{$item[$fmakePage->idField]}'","COUNT(*)",true);
 			$pages[$key]['stat']['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
-			$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `{$fmakePage->idField}`='{$item[$fmakePage->idField]}'","COUNT(*)",true);
+			$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`!='0' AND `{$fmakePage->idField}`='{$item[$fmakePage->idField]}'","COUNT(*)",true);
 			$pages[$key]['stat']['count_zayavka'] = ($count_zayavka[0]['COUNT(*)'])? $count_zayavka[0]['COUNT(*)']:0;
 		}	
 		global $twig,$globalTemplateParam;
@@ -116,9 +116,9 @@ function showTextsPage($id_page){
 	$fmakeLike = new promoLike_like();
 	$texts = $fmakeTextLike->getAllTextPage($id_page);
 	if($texts)foreach ($texts as $key=>$item){
-		$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `{$fmakeTextLike->idField}`='{$item[$fmakeTextLike->idField]}'","COUNT(*)",true);
+		$count_like = $fmakeLike->getQuery("(`status`='3' OR `status`='4') AND `id_place`!='0' AND `{$fmakeTextLike->idField}`='{$item[$fmakeTextLike->idField]}'","COUNT(*)",true);
 		$texts[$key]['stat']['count_like'] = ($count_like[0]['COUNT(*)'])? $count_like[0]['COUNT(*)']:0;
-		$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `{$fmakeTextLike->idField}`='{$item[$fmakeTextLike->idField]}'","COUNT(*)",true);
+		$count_zayavka = $fmakeLike->getQuery("(`status`='1' OR `status`='2') AND `id_place`!='0' AND `{$fmakeTextLike->idField}`='{$item[$fmakeTextLike->idField]}'","COUNT(*)",true);
 		$texts[$key]['stat']['count_zayavka'] = ($count_zayavka[0]['COUNT(*)'])? $count_zayavka[0]['COUNT(*)']:0;
 	}
 	$fmakePage = new promoLike_page();
