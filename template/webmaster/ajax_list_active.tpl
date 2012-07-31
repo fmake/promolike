@@ -20,10 +20,16 @@
 								Опубликован и ожидает проверки (примерно 2-3 дня)
 							[[elseif item.status==4]]	
 								Опубликован и засчинан
+							[[elseif item.status==5]]	
+								Удалена
 							[[endif]]
 						</td>
 						<td class="list-active-date">
-							{df('date','H:i d.m.Y',item.date_placed)}
+							[[if item.date_history]]
+								{df('date','H:i d.m.Y',item.date_history)}
+							[[else]]
+								{df('date','H:i d.m.Y',item.date_placed)}
+							[[endif]]
 						</td>
 						<td class="list-active-text">
 							{item.like_text}

@@ -26,9 +26,9 @@
 		if($proxy){
 			/*выбираем из таблицы прокси*/
 			$fmakeproxy = new fmakeProxy();
-			$proxy = $fmakeproxy->getRandProxy();
+			$proxy = $fmakeproxy->getProxy();
 			/*выбираем из таблицы прокси*/
-			$curl->set_opt(CURLOPT_PROXY,$proxy['proxy']);
+			if($proxy) $curl->set_opt(CURLOPT_PROXY,$proxy['proxy']);
 		}
 		$curl -> get($url);
 		$result = $curl -> data();
@@ -53,6 +53,7 @@
     public function SendMessageWall($api_id,$id_user,$id_soc_set,$textpage,$link){
 		$SocialUser = new fmakeSiteUser();
 		$params_user_vk = $SocialUser->getUserSocialParam($id_user,$id_soc_set);
+		if($params_user_vk['active']) return false;
 		//$vk = new fmakeVkapi($api_id,$params_user_vk['tocken']);
 		$this->api_id = $api_id;
 		$this->tocken = $params_user_vk['tocken'];
@@ -81,8 +82,26 @@
 		}
 		if($link) $array_param['attachments'] .= $link;
 		
-		$send_vk_wall_messages = $this->desktop_api('wall.post', $array_param,true);
+		if($params_user_vk['active']) $send_vk_wall_messages = $this->desktop_api('wall.post', $array_param,true);
+		else $send_vk_wall_messages = false;
 		return $send_vk_wall_messages;
-	}   
+	}  
+ 	public function isLikeWall($api_id,$id_user,$id_soc_set,$textpage,$link){
+		$SocialUser = new fmakeSiteUser();
+		$params_user_vk = $SocialUser->getUserSocialParam($id_user,$id_soc_set);
+		//$vk = new fmakeVkapi($api_id,$params_user_vk['tocken']);
+		$this->api_id = $api_id;
+		$this->tocken = $params_user_vk['tocken'];
+		//$message = $textpage;
+		$array_param = array('owner_id'=>$params_user_vk['uid'],'count'=>100,'filter'=>'owner');
+		
+		//if($link) $array_param['attachments'] .= $link;
+		
+		if($params_user_vk['active']) $vk_wall_messages = $this->desktop_api('wall.get', $array_param,true);
+		else $vk_wall_messages = false;
+		return $vk_wall_messages;
+	} 
+	
+	
  }
  ?>

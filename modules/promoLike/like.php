@@ -99,7 +99,7 @@ class promoLike_like extends fmakeCore{
 	 * Смена статуса
 	 * @param int $status
 	 * 
-	 * status - 1(новый);2(пауза);3(ожидание проверки 2 дней на удаление);4(опубликован);
+	 * status - 1(новый);2(пауза);3(ожидание проверки 2 дней на удаление);4(опубликован);5(удалена);6(ошибка);
 	 */
 	function changeStatus($status) {
 		$this->addParam('status',$status);
@@ -112,10 +112,14 @@ class promoLike_like extends fmakeCore{
 	 * @param int $status
 	 */
 	
-	function getAllLikeStatus($status) {
+	function getAllLikeStatus($status,$where = false) {
 		$select = $this->dataBase->SelectFromDB(__LINE__);
+		if($where){
+			$select->addWhere($where);
+		}
 		return $select->addFrom("`".$this->table."`")->addWhere("`status` = '{$status}'")->addWhere("`active` = '1'")->queryDB();
 	}
+	
 	
 	
 	/**
@@ -204,5 +208,32 @@ class promoLike_like extends fmakeCore{
 		if($active)
 			$select->addWhere("`active` = '1'");
 		return $select->addFrom("`".$this->table."`")->queryDB();
+	}
+	
+	function checkLikeWallVK($array_wall,$textpage,$link){
+		foreach ($array_wall as $key=>$item){
+			//echo("{$key}<br/>");
+			if($key>0){
+				//echo("<br/>--------текст: '{$item->text}'<br/>");
+				if($item->text==$textpage){
+					if($link){
+						if($item->attachments){
+							//echo("ссылки:<br/>");
+							//printAr($item->attachments);
+							//echo("-------<br/>");
+							foreach ($item->attachments as $param){
+								if($param->type == 'link' && $param->link->url == $link ){
+									return $item;
+								}
+							}
+						}
+					}
+					else{
+						return $item;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

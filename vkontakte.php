@@ -24,6 +24,7 @@ $api_id = '2629628';
 $id_user = intval($_GET['id_user']);
 $id_soc_set = intval($_GET['id_soc_set']);
 $id_textlike = intval($_GET['id_textlike']);
+$id_like = intval($_GET['id_like']);
 switch($_GET['action']){
 	case 'send_message_vk':
 		$vk = new fmakeVkapi();
@@ -34,6 +35,18 @@ switch($_GET['action']){
 		$fmakePage->setId($textlike[$fmakePage->idField]);
 		$page = $fmakePage->getInfo();
 		if($id_user && $id_soc_set && $textlike && $page) $result = $vk->SendMessageWall($api_id, $id_user, $id_soc_set, $textlike, $page['url']);
+		else $result = array('error'=>'неполная информация на входе');
+	break;
+	case 'get_wall_vk':
+		$vk = new fmakeVkapi();
+		$fmakeLike = new promoLike_like();
+		$fmakeLike->setId($id_like);
+		$like = $fmakeLike->getInfo();
+		$id_user = $like['id_user_place'];
+		$id_soc_set = $like['id_place'];
+		$textlike = $like['like_text'];
+		$url = $like['url'];
+		if($like && $id_user && $id_soc_set && $textlike) $result = $vk->isLikeWall($api_id, $id_user, $id_soc_set, $textlike, $url);
 		else $result = array('error'=>'неполная информация на входе');
 	break;
 }
