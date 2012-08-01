@@ -210,30 +210,54 @@ class promoLike_like extends fmakeCore{
 		return $select->addFrom("`".$this->table."`")->queryDB();
 	}
 	
-	function checkLikeWallVK($array_wall,$textpage,$link){
-		foreach ($array_wall as $key=>$item){
-			//echo("{$key}<br/>");
-			if($key>0){
-				//echo("<br/>--------текст: '{$item->text}'<br/>");
-				if($item->text==$textpage){
-					if($link){
-						if($item->attachments){
-							//echo("ссылки:<br/>");
-							//printAr($item->attachments);
-							//echo("-------<br/>");
-							foreach ($item->attachments as $param){
-								if($param->type == 'link' && $param->link->url == $link ){
-									return $item;
+	function checkLikeWall($id_place,$array_wall,$textpage,$link){
+		switch ($id_place){
+			case '2'://Vkontakte
+				foreach ($array_wall as $key=>$item){
+					//echo("{$key}<br/>");
+					if($key>0){
+						//echo("<br/>--------текст: '{$item->text}'<br/>");
+						if($item->text==$textpage){
+							if($link){
+								if($item->attachments){
+									//echo("ссылки:<br/>");
+									//printAr($item->attachments);
+									//echo("-------<br/>");
+									foreach ($item->attachments as $param){
+										if($param->type == 'link' && $param->link->url == $link ){
+											return $item;
+										}
+									}
 								}
+							}
+							else{
+								return $item;
 							}
 						}
 					}
-					else{
-						return $item;
+				}
+				return false;
+				break;
+			case '3'://Twitter
+				foreach ($array_wall as $key=>$item){
+					$position_str = strpos($item->text,$textpage);	
+					if(!($position_str === false)){
+						if($link){
+							if($item->entities->urls){
+								foreach ($item->entities->urls as $param){
+									if($param->expanded_url == $link ){
+										return $item;
+									}
+								}
+							}
+						}
+						else{
+							return $item;
+						}
 					}
 				}
-			}
+				return false;
+				break;
 		}
-		return false;
 	}
 }

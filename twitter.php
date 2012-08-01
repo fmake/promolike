@@ -85,6 +85,30 @@ switch($_GET['action']){
 			//printAr($result);
 		}
 		break;
+	case 'get_posts_wall':
+		$id_user = intval($_GET['id_user']);
+		$id_soc_set = intval($_GET['id_soc_set']);
+		//$id_like = $_GET['id_like'];
+		$user_params = $SocialUser->getUserSocialParam($id_user,3);
+		if($user_params['tocken'] && $user_params['secret_tocken'] && $_GET['key']=='1029384756'){
+			$access_token = $user_params['tocken'];
+			$access_token_secret = $user_params['secret_tocken'];
+			// А теперь можно проверить
+			$twitter = new TwitterOAuth($consumer_key,$consumer_secret,$access_token,$access_token_secret);
+			
+			
+			/*параметры твита*/
+			//$link = $page['url'];
+			//$text = $textlike['text_like'];
+			
+			$params = array("include_entities"=>true,"screen_name"=>$user_params['nickname'],"count"=>100);
+			/*параметры твита*/
+			
+			$result = $twitter->get("statuses/user_timeline",$params);  
+			echo json_encode($result);
+			//printAr($result);
+		}
+		break;
 }
 if($_GET['oauth_verifier'] && $_GET['oauth_token']){
 	// сначала получим сохраненные временные ключи
